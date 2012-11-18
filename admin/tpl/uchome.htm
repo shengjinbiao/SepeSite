@@ -1,0 +1,82 @@
+<table summary="" id="pagehead" cellpadding="0" cellspacing="0" border="0" width="100%">
+	<tr>
+		<td><h1>$alang[uchome_setting]</h1></td>
+	</tr>
+</table>
+<form method="post" name="thevalueform" id="theform"action="$formurl" enctype="multipart/form-data" >
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+<div class="colorarea01">
+<table cellspacing="2" cellpadding="2" class="helptable"><tr><td><ul>
+<li>您需要填写UCenter Home的数据库的信息后才能聚合日志和相册。</li>
+</ul></td></tr></table>
+</div>
+
+<div class="colorarea02">
+<h2>UCenter Home数据库设置</h2>
+<table cellspacing="0" cellpadding="0" width="100%"  class="maintable">
+<tr>
+<th>数据库服务器*<p>一般为本地localhost</p></th>
+<td><input name="dbhost_uch" type="text" id="dbhost_uch" <!--{if $_GET['error'] == 'db'}-->style="border:1px solid #ff1133;" <!--{/if}--> size="30" value="$_SC[dbhost_uch]" /></td>
+</tr>
+<tr>
+<th>数据库用户名*</th>
+<td><input name="dbuser_uch" type="text" id="dbuser_uch" <!--{if $_GET['error'] == 'db'}-->style="border:1px solid #ff1133;" <!--{/if}--> size="30" value="$_SC[dbuser_uch]" /></td>
+</tr>
+<tr>
+<th>数据库密码*</th>
+<td><input name="dbpw_uch" type="password" id="dbpw_uch" <!--{if $_GET['error'] == 'db'}-->style="border:1px solid #ff1133;" <!--{/if}--> size="30" value="$_SC[dbpw_uch]" /></td>
+</tr>
+<tr>
+<th>数据库名*</th>
+<td><input name="dbname_uch" type="text" id="dbname_uch" <!--{if $_GET['error'] == 'dbname'}-->style="border:1px solid #ff1133;" <!--{/if}--> size="30" value="$_SC[dbname_uch]" /></td>
+</tr>
+<tr>
+<th>数据库表名前缀*<p>不能与Supestie或者论坛的表名前缀相同</p></th>
+<td><input name="tablepre_uch" type="text" id="tablepre_uch" <!--{if $_GET['error'] == 'tablepre'}-->style="border:1px solid #ff1133;" <!--{/if}--> size="30" value="$_SC[tablepre_uch]" /></td>
+</tr>
+<tr>
+<th>数据库字符集<p>默认字符集为空即可</p></th>
+<td><input name="dbcharset_uch" type="text" id="dbcharset_uch" size="30" value="$_SC[dbcharset_uch]" /></td>
+</tr>
+<tr>
+<th>数据库是否使用永久连接</th>
+<td><!--{if $_SC['pconnect_uch']}-->
+		<input type="checkbox" name="pconnect_uch" value="true" checked="checked" />
+	<!--{else}-->
+		<input type="checkbox" name="pconnect_uch" value="true" />
+	<!--{/if}-->
+	</td>
+</tr>
+<tr>
+<th>UCenter Home路径*<p>必须填写以http://开头的完整URL,结尾不要加 “/”</p></th>
+<td><input name="uchurl" type="text" id="uchurl" <!--{if $_GET['error'] == 'uchurl'}-->style="border:1px solid #ff1133;" <!--{/if}--> size="30" value="$_SC['uchurl']" /></td>
+</tr>
+<tr>
+<th>UCenter Home附件目录<p>默认目录为空即可</p></th>
+<td><input name="uchattachurl" type="text" id="uchattachurl" size="30" value="$_SC[uchattachurl]" /></td>
+</tr>
+<tr>
+<th>UCenter Home附件远程访问 URL<p>如果UCenter Home开启远程附件填写远程访问 URL,如果没有开启远程附件，为空即可(支持 HTTP 和 FTP 协议，结尾要加斜杠“/”)。</p></th>
+<td><input name="uchftpurl" type="text" id="uchftpurl" size="30" value="$_SC[uchftpurl]" /></td>
+</tr>
+</table>
+</div>
+
+<div class="buttons">
+<input type="submit" name="thevaluesubmit" value="提交保存" class="submit" onclick="this.form.action+='&subtype=other';">
+<input type="reset" name="thevaluereset" value="重置">
+</div></form>
+<div class="colorarea01">
+<table cellspacing="2" cellpadding="2" class="helptable"><tr><td><ul>
+<li>如果你想删除聚合UCenter Home的信息，请点击“删除UCenter Home聚合”</li>
+<li>删除UCenter Home聚合后会删除id为“uchblog”和“uchimage”的频道，并且清空UCenter Home配置</li>
+</ul></td></tr></table>
+</div>
+<form action="$formurl" method="post">
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+<div class="buttons">
+<input type="submit" name="thevaluedeldata" value="删除UCenter Home聚合"  class="submit" onclick="if(!confirm('确认要删除聚合信息？')) return false;" >
+</div>
+
+</form>
+

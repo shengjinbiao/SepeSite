@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE>Insert Table</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="">
+<META NAME="Keywords" CONTENT="">
+<META NAME="Description" CONTENT="">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<style type="text/css">
+table{
+	font-size:12px;
+}
+body{
+	overflow:hidden;
+	margin:0px;
+	padding:0px;
+	padding-top:1px;
+	background:url("bgcolor.gif")
+}
+</style>
+<script type="text/javascript">
+function insetTable() {
+	var widthType = (document.getElementById("wordEditer_Table_WIDTHTYPE").value == "pixels") ? "" : "%";
+	var html = '<table border="' + document.getElementById("wordEditer_Table_BORDER").value + '" cellpadding="' + document.getElementById("wordEditer_Table_PADDING").value + '" ';
+	
+	html += 'cellspacing="' + document.getElementById("wordEditer_Table_SPACING").value + '" width="' + document.getElementById("wordEditer_Table_WIDTH").value + widthType + '">\n';
+	for (var rows = 0; rows < document.getElementById("wordEditer_Table_ROWS").value; rows++) {
+		html += "<tr>\n";
+		for (var cols = 0; cols < document.getElementById("wordEditer_Table_COLUMNS").value; cols++) {
+			html += "<td>&nbsp;</td>\n";
+		}
+		html+= "</tr>\n";
+	}
+	html += "</table>\n";
+	if(window.Event){
+		var oRTE = opener.getFrameNode(opener.sRTE);
+		oRTE.document.execCommand('insertHTML', false, html);
+	}
+	else {
+		var oRTE = dialogArguments.getFrameNode(dialogArguments.sRTE);
+		oRTE.focus();
+		var oRng = oRTE.document.selection.createRange();
+		oRng.pasteHTML(html);
+		oRng.collapse(false);
+		oRng.select();
+	}
+	window.close();
+}
+function _cancel() {
+	window.close();
+}
+</script>
+</HEAD>
+<BODY>
+<table border="0" cellpadding="0" cellspacing="8" align="center">
+  <tr>
+    <td>行数:</td><td>
+      <input style="width:40px;" id="wordEditer_Table_ROWS" value="3"></td>
+    <td>列数:
+      <input style="width:40px;" id="wordEditer_Table_COLUMNS" value="3"></td>
+  </tr>
+  <tr>
+    <td>表格宽度:</td><td>
+      <input style="width:40px;" id="wordEditer_Table_WIDTH" value="200"></td>
+    <td><select id="wordEditer_Table_WIDTHTYPE">
+        <option selected value="pixels">象素</option>
+        <option>百分比</option>
+      </select></td>
+  </tr>
+  <tr>
+    <td>边框粗细:</td><td>
+      <input style="width:40px;" id="wordEditer_Table_BORDER" value="1"></td>
+    <td>象素</td>
+  </tr>
+  <tr>
+    <td>单元格边距:</td><td>
+      <input style="width:40px;" id="wordEditer_Table_PADDING" value="1"></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>单元格间距:</td><td>
+      <input style="width:40px;" id="wordEditer_Table_SPACING" value="1"></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr align="center">
+    <td colspan="3"><a onclick="insetTable();"><img src="tools_bt_ok.gif" width="42" height="19" border="0"></a>&nbsp;&nbsp;<a onclick="_cancel();"><img src="tools_bt_no.gif" width="42" height="19" border="0"></a></td>
+  </tr>
+</table>
+</BODY>
+</HTML>

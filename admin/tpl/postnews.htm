@@ -1,0 +1,205 @@
+<table width="100%" cellspacing="0" cellpadding="0" border="0" id="pagehead" summary="">
+	<tbody><tr>
+	<td><h1>信息推送配置</h1></td>
+	<td class="actions">
+		<table cellspacing="0" cellpadding="0" border="0" align="right" summary="">
+		<tbody><tr>
+		<td <!--{if $op!='add'}--> class="active" <!--{/if}-->><a class="view" href="admincp.php?action=postnews">浏览推送配置</a></td>
+		<td  <!--{if $op=='add' && $type=='toss'}--> class="active" <!--{/if}-->><a class="add" href="admincp.php?action=postnews&amp;op=add&amp;type=toss">添加正向推送配置</a></td>
+		<td  <!--{if $op=='add' && $type=='fromss'}--> class="active" <!--{/if}-->><a class="add" href="admincp.php?action=postnews&amp;op=add&amp;type=fromss">添加反向推送配置</a></td>
+		</tr>
+		</tbody></table>
+	</td>
+	</tr>
+	</tbody>
+</table>
+
+<div class="colorarea02">
+<!--{if empty($op)}-->
+	<!--{if $list}-->
+<form action="{CPURL}?action=postnews" method="post">
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+<table width="100%" cellspacing="0" cellpadding="0" class="listtable">
+<tbody>
+	<tr>
+		<th width="8%" ><input type="checkbox" onclick="checkall(this.form, 'setid')" name="chkall"/>全选</th>
+		<th width="34%" >推送名称</th>
+		<th width="17%" >推送类型</th>
+		<th width="12%">是否有效</th>
+		<th width="29%">操作</th>
+	</tr>
+	<!--{loop $list $value}-->
+	<!--{eval $value[setting] = unserialize($value[setting]);}-->
+	<tr class="darkrow">
+		<td><input type="checkbox" value="$value[setid]" name="setid[]"  /></td>
+		<td>$value[setname]</td>
+		<td><!--{if $value['settype'] == 'toss'}-->正向推送<!--{else}-->反向推送<!--{/if}--></td>
+		<td><!--{if $value['setting']['setlive']}-->有效<!--{else}-->无效<!--{/if}--></td>
+		<td><a href="{CPURL}?action=postnews&amp;op=edit&id=$value[setid]">编辑配置</a><!--{if $value['settype'] == 'toss'}-->|<a href="{CPURL}?action=postnews&amp;op=getcode&id=$value[setid]">获取代码</a><!--{/if}--></td>
+	</tr>
+	<!--{/loop}-->
+</tbody>
+</table>
+<div class="buttons">
+	<input type="submit" class="submit" value="删除选中" name="deletepostsubmit"/>
+	<input type="reset" value="重置" name="postreset"/>
+</div>
+</form>
+	<!--{/if}-->
+<!--{elseif ($op=='add' && $op=='edit') ||  $type=='toss'}-->
+<div class="colorarea01">
+<table cellspacing="2" cellpadding="2" class="helptable"><tr><td>
+<ul>
+<li>正向推送是由论坛或者UCenter Home推送到SupeSite</li>
+</ul>
+</td></tr>
+</table>
+</div>
+<form action="{CPURL}?action=postnews" method="post">
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+<input type="hidden" name="settype" value="toss" />
+	<!--{if $set}-->
+	<input type="hidden" name="setid" value="$set[setid]" />
+	<!--{/if}-->
+<script>
+function showbtn() {
+	if($('seticon').value) {
+		
+		$('postbtn').innerHTML = '<a href="javascript:;" title="' + $('setname').value + '"><img src="'+ siteUrl +'/images/push/' + $('seticon').value + '" /></a>';
+	} else {
+		$('postbtn').innerHTML = '<a href="javascript:;">' + $('setname').value + '</a>';
+	}
+}
+</script>
+<table cellspacing="0" cellpadding="0" width="100%"  class="maintable">
+<tr>
+	<th width="27%">推送名称*<p>显示在推送按钮上的文字</p></th>
+	<td width="36%"><input type="text" name="setname" id="setname" value="$set[setname]" onkeyup="showbtn();"></td>
+	<td width="37%" id="postbtn">&nbsp;</td>
+</tr>
+<tr>
+<th>按钮图片<p>用自定义图片做为推送的按钮</p></th>
+<td colspan="2">./images/push/<input type="text" size="15" value="{$set[setting][seticon]}" id="seticon" name="seticon" onchange="showbtn();" />
+<br/>需要确保将该图片上传到程序的 ./images/push/ 目录下面。
+</td>
+<tr>
+	<th>标题标签id<p>如果标题标签没有定义id可以自定义添加没有被使用的id</p></th>
+	<td>
+	<input type="text" name="subject_id" value="{$set[setting][subject_id]}" />
+	</td>
+	<td><img src="admin/images/subjectid.jpg"  /></td>
+</tr>
+<tr>
+	<th>内容标签id<p>如果内容标签没有定义id可以自定义添加没有被使用的id</p></th>
+	<td>
+	<input type="text" name="message_id" value="{$set[setting][message_id]}" />
+	</td>
+	<td><img src="admin/images/messageid.jpg"  /></td>
+</tr>
+<tr>
+	<th width="27%">是否启用<p>可以选择暂时不启用此推送</p></th>
+	<td width="36%" colspan="2"><input type="checkbox" name="setlive" value="1" <!--{if $set['setting']['setlive']}-->checked="checked"<!--{/if}--> />开启</td>
+</tr>
+</tr>
+
+</table>
+<div class="buttons">
+	<input type="submit" class="submit" value="获取推送代码" name="posttosssubmit"/>
+	<input type="reset" value="重置" name="postreset"/>
+</div>
+</form>
+<!--{elseif ($op=='add' || $op=='edit') && $type=='fromss'}-->
+<div class="colorarea01">
+<table cellspacing="2" cellpadding="2" class="helptable"><tr><td>
+<ul>
+<li>反向推送是由SupeSite推送到论坛或者UCenter Home</li>
+</ul>
+</td></tr>
+</table>
+</div>
+<form action="{CPURL}?action=postnews" method="post">
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<!--{if $set}-->
+	<input type="hidden" name="setid" value="$set[setid]" />
+	<!--{/if}-->
+	<input type="hidden" name="settype" value="fromss" />
+<table cellspacing="0" cellpadding="0" width="100%"  class="maintable">
+	<tr>
+		<th>推送名称*<p>推送名称是推送的标示，必须填写</p></th>
+		<td><input type="text" name="setname" value="$set[setname]"></td>
+	</tr>
+	<tr>
+		<th>推送类型*</th>
+		<td><input type="radio" value="uchome" size="30" $selecttype[uchome] onclick="$('uchomeset').style.display='';" name="posttype"/>UCenter Home <input type="radio" value="bbs" size="30" $selecttype[bbs] onclick="$('uchomeset').style.display='none';" name="posttype"/>论坛
+		</td>
+	</tr>
+	<tr>
+		<th>
+		使用聚合配置
+		<p>如果已经设置了聚合配置，可以直接使用聚合配置</p>
+		</th>
+		<td><input type="checkbox" name="sethave" onclick="if(this.checked){$('dbinfo').style.display='none';}else{$('dbinfo').style.display='';}" /></td>
+	</tr>
+	<tbody id="dbinfo">
+	<tr>
+		<th>数据库名<p>一般为本地localhost</p></th>
+		<td><input type="text" name="setdbname" value="{$set[setting][setdbname]}"></td>
+	</tr>
+		<tr>
+		<th>数据库服务器</th>
+		<td><input type="text" name="setdbhost" value="{$set[setting][setdbhost]}"></td>
+	</tr>
+	<tr>
+		<th>数据库用户名</th>
+		<td><input type="text" name="setdbuser" value="{$set[setting][setdbuser]}"></td>
+	</tr>
+	<tr>
+		<th>数据库密码</th>
+		<td><input type="password" name="setdbpwd" value="{$set[setting][setdbpwd]}"></td>
+	</tr>
+	<tr>
+		<th>数据表前缀</th>
+		<td><input type="text" name="setdbpre" value="{$set[setting][setdbpre]}"></td>
+	</tr>
+	<tr>
+		<th>数据库是否使用永久连接</th>
+		<td><input type="checkbox" name="setdbpconnect" <!--{if $set[setting][setdbpconnect]}--> checked="checked" <!--{/if}--> value="1" /></td>
+	</tr>
+	</tbody>
+	<tbody id="uchomeset" <!--{if $set['setting']['posttype']=='bbs'}-->style="display:none;"<!--{/if}-->>
+	<tr>
+		<th>推送信息类型<p>选择把信息推送到哪种类型中</p></th>
+		<td><input type="radio" name="setctype" value="blog" $setctype[blog] />日志<input type="radio" name="setctype" value="thread" $setctype[thread] />话题</td>
+	</tr>
+	</tbody>
+	<tr>
+	<th width="27%">是否启用<p>可以选择暂时不启用此推送</p></th>
+	<td width="36%"><input type="checkbox" name="setlive" value="1"  <!--{if $set['setting']['setlive']}-->checked="checked"<!--{/if}--> /></td>
+	<td width="37%" id="postbtn">&nbsp;</td>
+	</tr>
+</table>
+<div class="buttons">
+	<input type="submit" class="submit" value="添加推送" name="postvaluesubmit"/>
+	<input type="reset" value="重置" name="postreset"/>
+</div>
+</form>
+<!--{elseif $op=='getcode'}-->
+<div class="colorarea01">
+<table cellspacing="2" cellpadding="2" class="helptable">
+<tr><td>
+	<ul>
+		<li>你可以自己修改推送代码中标签id，如果html标签没有id可以自己添加id。</li>
+	</ul>
+</td></tr>
+</table>
+</div>
+<table cellspacing="0" cellpadding="0" width="100%"  class="maintable">
+	<tr>
+		<th>$set[setname]</th>
+	</tr>
+	<tr>
+		<td><textarea name="setcode" rows="3" cols="120">$code</textarea></td>
+	</tr>
+</table>
+<!--{/if}-->
+</div>

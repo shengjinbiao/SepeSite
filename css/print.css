@@ -1,0 +1,44 @@
+/* -------------------------------------
+ SupeSite 官方模板 for Printer
+ (C) 2001-2006 Comsenz Inc.
+ http://www.supesite.com
+------------------------------------- */
+
+* { font: 14px; font-family: Arial, Helvetica, sans-serif; }
+
+#header, .sideL, .sideR, #nav, .col_350, .nl_hot, .nl_list h3, .news_glo_module, #sign_msg  {
+	display: none !important;
+}
+
+.sideR { background: red !important; }
+
+h1 {
+	text-align: center;
+	font-size: 16px;
+	margin-bottom: 10px;
+}
+#article{
+	margin-top: 10px;
+	text-align: center;
+	font-size: 16px;
+	font-weight: normal;
+	border-bottom: 1px solid #CCC;
+	line-height: 2em;
+}
+img {
+	border: none;
+}
+.pages { text-align: right; font-size: 12px;}
+	.pages table { margin: 0 0 0 auto; }
+#footer {
+	text-align: center;
+	font-size: 12px;
+	border-top: 1px solid #CCC;
+}
+#footer p {
+	margin: 5px 0;
+}
+#footer * {
+	font-size: 12px;
+}
+

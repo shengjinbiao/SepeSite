@@ -1,0 +1,653 @@
+<table summary="" id="pagehead" cellpadding="0" cellspacing="0" border="0" width="100%">
+	<tr>
+		<td><h1>用户组</h1></td>
+		<td class="actions">
+			<table summary="" cellpadding="0" cellspacing="0" border="0" align="right">
+				<tr>
+					<td<!--{if $_GET['op'] != 'add'}--> class="active"<!--{/if}-->><a href="{S_URL}/admincp.php?action=usergroups">浏览</a></td>
+					<td<!--{if $_GET['op'] == 'add'}--> class="active"<!--{/if}-->><a href="{S_URL}/admincp.php?action=usergroups&op=add">添加</a></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+		
+<!--{if $_GET['op'] == 'add' || $_GET['op'] == 'edit' }-->
+
+	<form method="post" action="{S_URL}/admincp.php?action=usergroups&groupid={$thevalue[groupid]}">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	
+	<table cellspacing="0" cellpadding="0" class="maintable">
+		<tr>
+			<th style="width:18em;">名称</th>
+			<td><input type="text" name="set[grouptitle]" value="$thevalue[grouptitle]"></td>
+		</tr>
+		<!--{if !isset($thevalue['system'])}-->
+		<tr>
+			<th>用户组类型</th>
+			<td>
+			<input type="radio" value="0" name="set[system]"<!--{if $thevalue[system] == 0}--> checked<!--{/if}--> onclick="$('admincp').style.display='none';$('admincp1').style.display='none';" /> 普通用户组
+			<input type="radio" value="1" name="set[system]"<!--{if $thevalue[system] == 1}--> checked<!--{/if}--> onclick="$('admincp').style.display='';$('admincp1').style.display=$('manageadmincp').checked ? '':'none';" /> 特殊用户组 (不受经验限制)
+			</td>
+		</tr>
+		<!--{/if}-->
+		<tr id="admincp"<!--{if empty($thevalue[system])}--> style="display: none;"<!--{/if}-->>
+			<th>是否允许登陆后台</th>
+			<td>
+			<input type="radio" value="1" id="manageadmincp" name="set[manageadmincp]" onclick="$('admincp1').style.display='';"<!--{if $thevalue[manageadmincp] == 1}--> checked<!--{/if}--> /> 允许
+			<input type="radio" value="0" name="set[manageadmincp]" onclick="$('admincp1').style.display='none';"<!--{if $thevalue[manageadmincp] != 1}--> checked<!--{/if}--> /> 不允许
+			</td>
+		</tr>
+	</table>
+	<h2>个人权限</h2>
+	<table cellspacing="0" cellpadding="0" class="maintable">
+		<tr>
+			<th>允许访问</th>
+			<td>
+				<input type="radio" name="set[allowview]" value="1"<!--{if $thevalue[allowview] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[allowview]" value="0"<!--{if $thevalue[allowview] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>允许投稿</th>
+			<td>
+				<input type="radio" name="set[allowpost]" value="1"<!--{if $thevalue[allowpost] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[allowpost]" value="0"<!--{if $thevalue[allowpost] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>是否需要审核</th>
+			<td>
+				<input type="radio" name="set[allowdirectpost]" value="1"<!--{if $thevalue[allowdirectpost] == 1}--> checked<!--{/if}-->> 需要
+				<input type="radio" name="set[allowdirectpost]" value="0"<!--{if $thevalue[allowdirectpost] != 1}--> checked<!--{/if}-->> 不需要
+			</td>
+		</tr>
+		<tr>
+			<th>允许发表评论</th>
+			<td>
+				<input type="radio" name="set[allowcomment]" value="1"<!--{if $thevalue[allowcomment] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[allowcomment]" value="0"<!--{if $thevalue[allowcomment] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>允许下载附件</th>
+			<td>
+				<input type="radio" name="set[allowgetattach]" value="1"<!--{if $thevalue[allowgetattach] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[allowgetattach]" value="0"<!--{if $thevalue[allowgetattach] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>允许上传附件</th>
+			<td>
+				<input type="radio" name="set[allowpostattach]" value="1"<!--{if $thevalue[allowpostattach] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[allowpostattach]" value="0"<!--{if $thevalue[allowpostattach] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>允许参与投票</th>
+			<td>
+				<input type="radio" name="set[allowvote]" value="1"<!--{if $thevalue[allowvote] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[allowvote]" value="0"<!--{if $thevalue[allowvote] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>允许搜索</th>
+			<td>
+				<input type="radio" name="set[allowsearch]" value="1"<!--{if $thevalue[allowsearch] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[allowsearch]" value="0"<!--{if $thevalue[allowsearch] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>允许积分转帐</th>
+			<td>
+				<input type="radio" name="set[allowtransfer]" value="1"<!--{if $thevalue[allowtransfer] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[allowtransfer]" value="0"<!--{if $thevalue[allowtransfer] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>允许向内推送</th>
+			<td>
+				<input type="radio" name="set[allowpushin]" value="1"<!--{if $thevalue[allowpushin] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[allowpushin]" value="0"<!--{if $thevalue[allowpushin] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>允许向外推送</th>
+			<td>
+				<input type="radio" name="set[allowpushout]" value="1"<!--{if $thevalue[allowpushout] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[allowpushout]" value="0"<!--{if $thevalue[allowpushout] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>允许匿名</th>
+			<td>
+				<input type="radio" name="set[allowanonymous]" value="1"<!--{if $thevalue[allowanonymous] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[allowanonymous]" value="0"<!--{if $thevalue[allowanonymous] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>允许隐藏IP</th>
+			<td>
+				<input type="radio" name="set[allowhideip]" value="1"<!--{if $thevalue[allowhideip] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[allowhideip]" value="0"<!--{if $thevalue[allowhideip] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>允许隐藏位置</th>
+			<td>
+				<input type="radio" name="set[allowhidelocation]" value="1"<!--{if $thevalue[allowhidelocation] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[allowhidelocation]" value="0"<!--{if $thevalue[allowhidelocation] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>允许点击</th>
+			<td>
+				<input type="radio" name="set[allowclick]" value="1"<!--{if $thevalue[allowclick] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[allowclick]" value="0"<!--{if $thevalue[allowclick] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>忽略关闭</th>
+			<td>
+				<input type="radio" name="set[closeignore]" value="1"<!--{if $thevalue[closeignore] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[closeignore]" value="0"<!--{if $thevalue[closeignore] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+	</table>
+	
+
+	<div id="admincp1" <!--{if empty($thevalue['system']) || empty($thevalue['manageadmincp'])}--> style="display:none" <!--{/if}--> >
+	<h2>后台管理</h2>
+	<table cellspacing="0" cellpadding="0" class="maintable" id="admincp1">
+		<tr>
+			<th>允许管理文章</th>
+			<td>
+				<input type="radio" name="set[managemodpost]" value="1"<!--{if $thevalue[managemodpost] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managemodpost]" value="0"<!--{if $thevalue[managemodpost] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>允许编辑文章</th>
+			<td>
+				<input type="radio" name="set[manageeditpost]" value="1"<!--{if $thevalue[manageeditpost] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[manageeditpost]" value="0"<!--{if $thevalue[manageeditpost] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>允许删除文章</th>
+			<td>
+				<input type="radio" name="set[managedelpost]" value="1"<!--{if $thevalue[managedelpost] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managedelpost]" value="0"<!--{if $thevalue[managedelpost] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>允许投稿管理</th>
+			<td>
+				<input type="radio" name="set[managefolder]" value="1"<!--{if $thevalue[managefolder] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managefolder]" value="0"<!--{if $thevalue[managefolder] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>允许从垃圾箱中发布</th>
+			<td>
+				<input type="radio" name="set[manageundelete]" value="1"<!--{if $thevalue[manageundelete] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[manageundelete]" value="0"<!--{if $thevalue[manageundelete] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>允许管理分类</th>
+			<td>
+				<input type="radio" name="set[managemodcat]" value="1"<!--{if $thevalue[managemodcat] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managemodcat]" value="0"<!--{if $thevalue[managemodcat] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>允许编辑分类</th>
+			<td>
+				<input type="radio" name="set[manageeditcat]" value="1"<!--{if $thevalue[manageeditcat] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[manageeditcat]" value="0"<!--{if $thevalue[manageeditcat] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>允许删除分类</th>
+			<td>
+				<input type="radio" name="set[managedelcat]" value="1"<!--{if $thevalue[managedelcat] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managedelcat]" value="0"<!--{if $thevalue[managedelcat] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+				<tr>
+			<th>允许管理采集器</th>
+			<td>
+				<input type="radio" name="set[managemodrobot]" value="1"<!--{if $thevalue[managemodrobot] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managemodrobot]" value="0"<!--{if $thevalue[managemodrobot] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>允许使用采集器</th>
+			<td>
+				<input type="radio" name="set[manageuserobot]" value="1"<!--{if $thevalue[manageuserobot] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[manageuserobot]" value="0"<!--{if $thevalue[manageuserobot] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>允许编辑采集器</th>
+			<td>
+				<input type="radio" name="set[manageeditrobot]" value="1"<!--{if $thevalue[manageeditrobot] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[manageeditrobot]" value="0"<!--{if $thevalue[manageeditrobot] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>允许删除采集器</th>
+			<td>
+				<input type="radio" name="set[managedelrobot]" value="1"<!--{if $thevalue[managedelrobot] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managedelrobot]" value="0"<!--{if $thevalue[managedelrobot] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>允许管理采集文章</th>
+			<td>
+				<input type="radio" name="set[managemodrobotmsg]" value="1"<!--{if $thevalue[managemodrobotmsg] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managemodrobotmsg]" value="0"<!--{if $thevalue[managemodrobotmsg] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+
+	</table>
+	
+	<h2>系统管理</h2>
+	<table cellspacing="0" cellpadding="0" class="maintable">
+		<tr>
+			<th>查看管理日志</th>
+			<td>
+				<input type="radio" name="set[manageviewlog]" value="1"<!--{if $thevalue[manageviewlog] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[manageviewlog]" value="0"<!--{if $thevalue[manageviewlog] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>管理系统设置</th>
+			<td>
+				<input type="radio" name="set[managesettings]" value="1"<!--{if $thevalue[managesettings] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managesettings]" value="0"<!--{if $thevalue[managesettings] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>管理用户组</th>
+			<td>
+				<input type="radio" name="set[manageusergroups]" value="1"<!--{if $thevalue[manageusergroups] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[manageusergroups]" value="0"<!--{if $thevalue[manageusergroups] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>管理评论</th>
+			<td>
+				<input type="radio" name="set[manageannouncements]" value="1"<!--{if $thevalue[manageannouncements] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[manageannouncements]" value="0"<!--{if $thevalue[manageannouncements] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>广告管理</th>
+			<td>
+				<input type="radio" name="set[managead]" value="1"<!--{if $thevalue[managead] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managead]" value="0"<!--{if $thevalue[managead] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>模块管理</th>
+			<td>
+				<input type="radio" name="set[manageblocks]" value="1"<!--{if $thevalue[manageblocks] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[manageblocks]" value="0"<!--{if $thevalue[manageblocks] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>论坛聚合管理</th>
+			<td>
+				<input type="radio" name="set[managebbs]" value="1"<!--{if $thevalue[managebbs] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managebbs]" value="0"<!--{if $thevalue[managebbs] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>论坛版块聚合设置管理</th>
+			<td>
+				<input type="radio" name="set[managebbsforums]" value="1"<!--{if $thevalue[managebbsforums] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managebbsforums]" value="0"<!--{if $thevalue[managebbsforums] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>帖子聚合管理</th>
+			<td>
+				<input type="radio" name="set[managethreads]" value="1"<!--{if $thevalue[managethreads] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managethreads]" value="0"<!--{if $thevalue[managethreads] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>Ucenter Home聚合管理</th>
+			<td>
+				<input type="radio" name="set[manageuchome]" value="1"<!--{if $thevalue[manageuchome] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[manageuchome]" value="0"<!--{if $thevalue[manageuchome] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>模型管理</th>
+			<td>
+				<input type="radio" name="set[managemodels]" value="1"<!--{if $thevalue[managemodels] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managemodels]" value="0"<!--{if $thevalue[managemodels] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>频道管理</th>
+			<td>
+				<input type="radio" name="set[managechannel]" value="1"<!--{if $thevalue[managechannel] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managechannel]" value="0"<!--{if $thevalue[managechannel] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		
+		<tr>
+			<th>用户管理</th>
+			<td>
+				<input type="radio" name="set[managemember]" value="1"<!--{if $thevalue[managemember] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managemember]" value="0"<!--{if $thevalue[managemember] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>静态生成管理</th>
+			<td>
+				<input type="radio" name="set[managehtml]" value="1"<!--{if $thevalue[managehtml] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managehtml]" value="0"<!--{if $thevalue[managehtml] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>缓存管理</th>
+			<td>
+				<input type="radio" name="set[managecache]" value="1"<!--{if $thevalue[managecache] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managecache]" value="0"<!--{if $thevalue[managecache] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>词语过滤管理</th>
+			<td>
+				<input type="radio" name="set[managewords]" value="1"<!--{if $thevalue[managewords] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managewords]" value="0"<!--{if $thevalue[managewords] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>附件类型管理</th>
+			<td>
+				<input type="radio" name="set[manageattachmenttypes]" value="1"<!--{if $thevalue[manageattachmenttypes] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[manageattachmenttypes]" value="0"<!--{if $thevalue[manageattachmenttypes] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>数据库管理</th>
+			<td>
+				<input type="radio" name="set[managedatabase]" value="1"<!--{if $thevalue[managedatabase] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managedatabase]" value="0"<!--{if $thevalue[managedatabase] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>模板管理</th>
+			<td>
+				<input type="radio" name="set[managetpl]" value="1"<!--{if $thevalue[managetpl] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managetpl]" value="0"<!--{if $thevalue[managetpl] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>计划任务管理</th>
+			<td>
+				<input type="radio" name="set[managecrons]" value="1"<!--{if $thevalue[managecrons] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managecrons]" value="0"<!--{if $thevalue[managecrons] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>文章审核管理</th>
+			<td>
+				<input type="radio" name="set[managecheck]" value="1"<!--{if $thevalue[managecheck] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managecheck]" value="0"<!--{if $thevalue[managecheck] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>样式管理</th>
+			<td>
+				<input type="radio" name="set[managecss]" value="1"<!--{if $thevalue[managecss] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managecss]" value="0"<!--{if $thevalue[managecss] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>友情链接管理</th>
+			<td>
+				<input type="radio" name="set[managefriendlinks]" value="1"<!--{if $thevalue[managefriendlinks] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managefriendlinks]" value="0"<!--{if $thevalue[managefriendlinks] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>预先值管理</th>
+			<td>
+				<input type="radio" name="set[manageprefields]" value="1"<!--{if $thevalue[manageprefields] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[manageprefields]" value="0"<!--{if $thevalue[manageprefields] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>站点地图管理</th>
+			<td>
+				<input type="radio" name="set[managesitemap]" value="1"<!--{if $thevalue[managesitemap] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managesitemap]" value="0"<!--{if $thevalue[managesitemap] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>批量主题管理</th>
+			<td>
+				<input type="radio" name="set[manageitems]" value="1"<!--{if $thevalue[manageitems] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[manageitems]" value="0"<!--{if $thevalue[manageitems] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>评论管理</th>
+			<td>
+				<input type="radio" name="set[managecomments]" value="1"<!--{if $thevalue[managecomments] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managecomments]" value="0"<!--{if $thevalue[managecomments] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>附件管理</th>
+			<td>
+				<input type="radio" name="set[manageattachments]" value="1"<!--{if $thevalue[manageattachments] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[manageattachments]" value="0"<!--{if $thevalue[manageattachments] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>Tag管理</th>
+			<td>
+				<input type="radio" name="set[managetags]" value="1"<!--{if $thevalue[managetags] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managetags]" value="0"<!--{if $thevalue[managetags] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>举报管理</th>
+			<td>
+				<input type="radio" name="set[managereports]" value="1"<!--{if $thevalue[managereports] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managereports]" value="0"<!--{if $thevalue[managereports] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>投票管理</th>
+			<td>
+				<input type="radio" name="set[managepolls]" value="1"<!--{if $thevalue[managepolls] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managepolls]" value="0"<!--{if $thevalue[managepolls] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>自定义信息管理</th>
+			<td>
+				<input type="radio" name="set[managecustomfields]" value="1"<!--{if $thevalue[managecustomfields] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managecustomfields]" value="0"<!--{if $thevalue[managecustomfields] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>模块风格</th>
+			<td>
+				<input type="radio" name="set[managestyles]" value="1"<!--{if $thevalue[managestyles] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managestyles]" value="0"<!--{if $thevalue[managestyles] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>风格模板</th>
+			<td>
+				<input type="radio" name="set[managestyletpl]" value="1"<!--{if $thevalue[managestyletpl] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managestyletpl]" value="0"<!--{if $thevalue[managestyletpl] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>管理删除用户权限</th>
+			<td>
+				<input type="radio" name="set[managedelmembers]" value="1"<!--{if $thevalue[managedelmembers] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managedelmembers]" value="0"<!--{if $thevalue[managedelmembers] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>点击器管理</th>
+			<td>
+				<input type="radio" name="set[manageclick]" value="1"<!--{if $thevalue[manageclick] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[manageclick]" value="0"<!--{if $thevalue[manageclick] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>积分管理</th>
+			<td>
+				<input type="radio" name="set[managecredit]" value="1"<!--{if $thevalue[managecredit] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managecredit]" value="0"<!--{if $thevalue[managecredit] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+		<tr>
+			<th>信息推送管理</th>
+			<td>
+				<input type="radio" name="set[managepostnews]" value="1"<!--{if $thevalue[managepostnews] == 1}--> checked<!--{/if}-->> 许可
+				<input type="radio" name="set[managepostnews]" value="0"<!--{if $thevalue[managepostnews] != 1}--> checked<!--{/if}-->> 不许可
+			</td>
+		</tr>
+	</table>
+	</div>
+	
+	
+	<div class="buttons">
+	<input type="hidden" name="set[groupid]" value="$thevalue[groupid]">
+	<input type="submit" name="thevaluesubmit" value="提交保存" class="submit">
+	</div>
+	
+	</form>
+	
+<!--{elseif $_GET['op'] == 'copy'}-->
+
+	<table cellspacing="2" cellpadding="2" class="helptable">
+		<tr><td><ul>
+			<li>这里可以把目标用户组权限应用给选中的用户组</li>
+		</ul></td></tr>
+	</table>
+
+	<form method="post" action="{S_URL}/admincp.php?action=usergroups&groupid=$groupid">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<table cellspacing="0" cellpadding="0" class="maintable">
+		<tr>
+			<th style="width:15em;">源用户组</th>
+			<td>$from</td>
+		</tr>
+		<tr>
+			<th>目标用户组</th>
+			<td>
+				<select name="aimgroup[]" size="10" multiple="multiple" style="width: 80%">
+				<!--{loop $grouparr $value}-->
+				<option value="$value[groupid]">$value[grouptitle]</option>
+				<!--{/loop}-->
+				</select>
+				<p>选择要将源用户组权限复制到哪些目标用户组，可以按住 CTRL 多选</p>
+			</td>
+		</tr>
+	</table>
+
+	<div class="buttons">
+	<input type="hidden" name="groupid" value="$groupid">
+	<input type="submit" name="copysubmit" value="提交" class="submit">
+	</div>
+
+	</form>
+
+<!--{else}-->
+
+	<table cellspacing="2" cellpadding="2" class="helptable">
+		<tr><td><ul>
+			<li>SupeSite通过用户组对用户的权限进行控制。</li>
+			<li>通过权限控制，您可以指定归属于该用户组的会员是否可以拥有能否发布资讯，能否进行信息审核等权限。</li>
+			<li>归属于特殊用户组的用户级别身份，不受经验的影响，始终保持不变</li>
+		</ul></td></tr>
+	</table>
+
+	<h2>普通用户组</h2>
+	<!--{if $list[0]}-->
+	<form action="admincp.php?action=usergroups" method="post">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<table cellspacing="0" cellpadding="0" class="listtable">
+		<tr><th>名称</th><th>经验</th><th style="width:15em;">操作</th></tr>
+		<!--{loop $list[0] $value}-->
+		<tr><td>$value[grouptitle]</td>
+			<!--{if $value['explower'] == -999999999}-->
+			<td><input type="text" readonly="" size="15" value="$value[explower]" name="explower[{$value[groupid]}]"  ></td>
+			<!--{else}-->
+			<td><input type="text" size="15" value="$value[explower]" name="explower[{$value[groupid]}]"></td>
+			<!--{/if}-->
+	
+			<td width="100">
+			<a href="{S_URL}/admincp.php?action=usergroups&op=edit&groupid=$value[groupid]">编辑</a>
+			<a href="{S_URL}/admincp.php?action=usergroups&op=copy&groupid=$value[groupid]">复制</a>
+			<a href="{S_URL}/admincp.php?action=usergroups&op=delete&groupid=$value[groupid]" onclick="return confirm('$alang[delete_all_note]');">删除</a>
+			</td>
+		</tr>
+		<!--{/loop}-->
+	</table>
+
+	<div class="buttons">
+	<input type="hidden" name="set[groupid]" value="$thevalue[groupid]">
+	<input type="submit" name="explowersubmit" value="提交保存" class="submit">
+	</div>
+
+	</form>
+	<!--{/if}-->
+	
+	<h2>特殊用户组</h2>
+	<!--{if $list[1]}-->
+	<table cellspacing="0" cellpadding="0" class="listtable">
+		<tr><th>名称</th><th style="width:15em;">操作</th></tr>
+		<!--{loop $list[1] $value}-->
+		<tr>
+			<td>$value[grouptitle]</td>
+			<td width="100">
+			<a href="{S_URL}/admincp.php?action=usergroups&op=edit&groupid=$value[groupid]">编辑</a>
+			<a href="{S_URL}/admincp.php?action=usergroups&op=copy&groupid=$value[groupid]">复制</a>
+			<a href="{S_URL}/admincp.php?action=usergroups&op=delete&groupid=$value[groupid]" onclick="return confirm('$alang[delete_all_note]');">删除</a>
+			</td>
+		</tr>
+		<!--{/loop}-->
+	</table>
+	<!--{else}-->
+	<table cellspacing="0" cellpadding="0" class="listtable">
+		<tr><td>没有检测到任何自定义用户组。</td></tr>
+	</table>
+	<!--{/if}-->
+
+	<!--{if $list[-1]}-->
+	<h2>系统用户组</h2>
+	<table cellspacing="0" cellpadding="0" class="listtable">
+		<tr><th>名称</th><th style="width:15em;">操作</th></tr>
+		<!--{loop $list[-1] $value}-->
+		<tr>
+			<td>$value[grouptitle]</td>
+			<td width="100">
+			<a href="{S_URL}/admincp.php?action=usergroups&op=edit&groupid=$value[groupid]">编辑</a>
+			<a href="{S_URL}/admincp.php?action=usergroups&op=copy&groupid=$value[groupid]">复制</a>
+			</td>
+		</tr>
+		<!--{/loop}-->
+	</table>
+	<!--{else}-->
+	<table cellspacing="0" cellpadding="0" class="listtable">
+		<tr><td>没有检测到任何系统用户组。</td></tr>
+	</table>
+	<!--{/if}-->
+	
+<!--{/if}-->

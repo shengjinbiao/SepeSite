@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE>Insert Flash</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="">
+<META NAME="Keywords" CONTENT="">
+<META NAME="Description" CONTENT="">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<style type="text/css">
+table{
+	font-size:12px;
+}
+
+body{
+	overflow:hidden;
+	margin:0px;
+	padding:0px;
+	padding-top:1px;
+	background:url("bgcolor.gif")
+}
+</style>
+<script type="text/javascript">
+function _cancel() {
+	window.close();
+}
+function insetFlash() {
+
+	var name = document.getElementById("wordEditer_flash_name").value;
+	if(!name) {
+		name = document.getElementById("wordEditer_flash_url").value;
+	}
+	var html = '<br />Flash: <kbd class="showflash" title="' + document.getElementById("wordEditer_flash_url").value + '">' + name + '</kbd><br />';
+
+	if(window.Event){
+		var oRTE = opener.getFrameNode(opener.sRTE);
+		oRTE.document.execCommand('insertHTML', false, html);
+	} else {
+		var oRTE = dialogArguments.getFrameNode(dialogArguments.sRTE);
+		oRTE.focus();
+		var oRng = oRTE.document.selection.createRange();
+		oRng.pasteHTML(html);
+		oRng.collapse(false);
+		oRng.select();
+	}
+	window.close();
+}
+</script>
+</HEAD>
+<BODY>
+<table border="0" cellpadding="0" cellspacing="8" align="center">
+  <tr>
+    <td>Flash名称: </td><td><input id="wordEditer_flash_name" value=""></td>
+  </tr>
+  <tr>
+    <td>Flash链接: </td><td><input id="wordEditer_flash_url" value="http://"></td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2"><a onclick="insetFlash();"><img src="tools_bt_ok.gif" width="42" height="19" border="0"></a>&nbsp;&nbsp;<a onclick="_cancel();"><img src="tools_bt_no.gif" width="42" height="19" border="0"></a></td>
+  </tr>
+</table>
+</BODY>
+</HTML>

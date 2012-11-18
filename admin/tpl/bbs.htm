@@ -1,0 +1,111 @@
+<table summary="" id="pagehead" cellpadding="0" cellspacing="0" border="0" width="100%">
+	<tr>
+		<td><h1>$alang[bbs_setting_info]</h1></td>
+		<td class="actions">
+		<table cellspacing="0" cellpadding="0" border="0" align="right" summary="">
+			<tbody><tr>
+					<td class="active"><a href="$cpurl?action=bbs">$alang[admincp_header_type_bbsset]</a></td>
+					<td><a href="$cpurl?action=bbsforums">$alang['admincp_header_type_bbsforums']</a></td>
+					<td><a href="$cpurl?action=threads">$alang[admincp_header_type_bbsthreads]</a></td>
+				</tr>
+			</tbody></table>
+		</td>
+	</tr>
+</table>
+<form method="post" name="thevalueform" id="theform" action="$formurl" enctype="multipart/form-data">
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+<div class="colorarea01">
+<table cellspacing="2" cellpadding="2" class="helptable"><tr><td><ul>
+<li>收录论坛主题步骤：</li>
+<li>1、您需要填写论坛的数据库及相关信息</li>
+<li>2、进入“<a href="{CPURL}?action=bbsforums">版块聚合</a>”配置论坛的板块收录设置</li>
+<li>3、设置成功后，设置会通过计划任务定期执行。</li>
+<li>4、您也可以通过“<a href="{CPURL}?action=threads">帖子批量聚合</a>”功能单独对论坛主题收录</li>
+<br/><br/>
+<li>论坛数据结构调整：</li>
+<li>参数设置成功后，程序会自动在论坛的“threads”表中增加“supe_pushstatus”和“blog”字段。</li>
+<li>删除设置时，不对这两个字段做删除操作，如确实不需要时请手工删除。</li>
+</ul></td></tr></table>
+</div>
+
+<a name="base"></a>
+<div class="colorarea02">
+
+<h2>论坛数据库设置</h2>
+<table cellspacing="0" cellpadding="0" width="100%"  class="maintable">
+
+<tr>
+<th>数据库服务器*<p>一般为本地localhost</p></th>
+<td><input name="dbhost_bbs" type="text" id="dbhost_bbs" <!--{if $_GET['error'] == 'db'}-->style="border:1px solid #ff1133;" <!--{/if}--> size="30" value="$_SC[dbhost_bbs]" /></td>
+</tr>
+<tr>
+<th>数据库用户名*</th>
+<td><input name="dbuser_bbs" type="text" id="dbuser_bbs" <!--{if $_GET['error'] == 'db'}-->style="border:1px solid #ff1133;" <!--{/if}--> size="30" value="$_SC[dbuser_bbs]" /></td>
+</tr>
+<tr>
+<th>数据库密码*</th>
+<td><input name="dbpw_bbs" type="password" id="dbpw_bbs" <!--{if $_GET['error'] == 'db'}-->style="border:1px solid #ff1133;" <!--{/if}--> size="30" value="$_SC[dbpw_bbs]" /></td>
+</tr>
+<tr>
+<th>数据库名*</th>
+<td><input name="dbname_bbs" type="text" id="dbname_bbs" <!--{if $_GET['error'] == 'dbname'}-->style="border:1px solid #ff1133;" <!--{/if}--> size="30" value="$_SC[dbname_bbs]" /></td>
+</tr>
+<tr>
+<th>数据库表名前缀*<p>不能与Supestie或者UCenter Home的表名前缀相同</p></th>
+<td><input name="tablepre_bbs" type="text" id="tablepre_bbs" <!--{if $_GET['error'] == 'tablepre'}-->style="border:1px solid #ff1133;" <!--{/if}--> size="30" value="$_SC[tablepre_bbs]" /></td>
+</tr>
+<tr>
+<th>数据库字符集<p>默认字符集为空即可</p></th>
+<td><input name="dbcharset_bbs" type="text" id="dbcharset_bbs" size="30" value="$_SC[dbcharset_bbs]" /></td>
+</tr>
+<tr>
+<th>数据库是否使用永久连接</th>
+<td><!--{if $_SC['pconnect_bbs']}-->
+		<input type="checkbox" name="pconnect_bbs" value="true" checked="checked" />
+	<!--{else}-->
+		<input type="checkbox" name="pconnect_bbs" value="true" />
+	<!--{/if}-->
+	</td>
+</tr>
+<tr>
+<th>论坛路径*<p>必须填写以http://开头的完整URL,结尾不要加 “/”</p></th>
+<td><input name="bbsurl" type="text" id="bbsurl" <!--{if $_GET['error'] == 'bbsurl'}-->style="border:1px solid #ff1133;" <!--{/if}--> size="30" value="$_SC['bbsurl']" /></td>
+</tr>
+<tr>
+<th>论坛附件目录<p>默认目录为空即可</p></th>
+<td><input name="bbsattachurl" type="text" id="bbsattachurl" size="30" value="$_SC[bbsattachurl]" /></td>
+</tr>
+<tr>
+<th>论坛版本*<p>论坛版本填写5，6，7等不支持其他格式</p></th>
+<td>
+<select name="bbsver">
+	<option >请选择论坛版本</option>
+	<option value="5" $bbsvarr[5]>5</option>
+	<option value="6" $bbsvarr[6]>6</option>
+	<option value="7" $bbsvarr[7]>7</option>
+</select>
+</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="buttons">
+<input type="submit" name="thevaluesubmit" value="提交保存" class="submit" onclick="this.form.action+='&subtype=other';">
+<input type="reset" name="thevaluereset" value="重置">
+</div>
+</form>
+<div class="colorarea01">
+<table cellspacing="2" cellpadding="2" class="helptable"><tr><td><ul>
+<li>如果你想删除聚合论坛的信息，请点击“删除论坛聚合”。</li>
+<li>删除论坛聚合后会删除id为“bbs”的频道，并且清空论坛配置。</li>
+</ul></td></tr></table>
+</div>
+<form action="$formurl" method="post">
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+<div class="buttons">
+<input type="submit" name="thevaluedeldata" value="删除论坛聚合"  class="submit" onclick="if(!confirm('确认要删除聚合信息？')) return false;" >
+</div>
+
+</form>

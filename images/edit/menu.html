@@ -1,0 +1,69 @@
+<html>
+<head>
+<style type="text/css">
+body{
+	padding:0px;
+	margin:0px;
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head>
+<body scroll=no>
+<table width="152" height="224" cellspacing="0" cellpadding="0" border="0" background="menu.gif">
+  <tr>
+    <td><input id="a" name="func" onclick="saveStatus()" checked type="checkbox"></td>
+  </tr>
+  <tr>
+    <td><input id="b" name="func" onclick="saveStatus()" checked type="checkbox"></td>
+  </tr>
+  <tr>
+    <td><input id="c" name="func" onclick="saveStatus()" checked type="checkbox"></td>
+  </tr>
+  <tr>
+    <td><input id="d" name="func" onclick="saveStatus()" checked type="checkbox"></td>
+  </tr>
+  <tr>
+    <td><input id="e" name="func" onclick="saveStatus()" checked type="checkbox"></td>
+  </tr>
+  <tr>
+    <td><input id="f" name="func" onclick="saveStatus()" checked type="checkbox"></td>
+  </tr>
+  <tr>
+    <td><input id="g" name="func" onclick="saveStatus()" checked type="checkbox"></td>
+  </tr>
+  <tr>
+    <td><input id="h" name="func" onclick="saveStatus()" checked type="checkbox"></td>
+  </tr>
+</table>
+<script type="text/javascript">
+function getStatus(){
+	var sFuncId = [];
+	if(window.Event){
+		var sFunc = opener.getCookie("supeSpaceWordFunc") ? opener.getCookie("supeSpaceWordFunc").split("_") : [];
+		for(var i = 0; i < sFunc.length; i++){
+			sFuncId = sFunc[i].split("@");
+			document.getElementById(sFuncId[0]).checked = sFuncId[1] == "true" ? false : true;
+		}
+	}else {
+		var sFunc = dialogArguments.getCookie("supeSpaceWordFunc") ? dialogArguments.getCookie("supeSpaceWordFunc").split("_") : [];
+		for(var i = 0; i < sFunc.length; i++){
+			sFuncId = sFunc[i].split("@");
+			document.getElementById(sFuncId[0]).checked = sFuncId[1] == "true" ? false : true;
+		}
+	}
+}
+function saveStatus(){
+	var aList = document.getElementsByName("func");
+	var sFunc = [];
+	for(var i = 0; i < aList.length; i++){
+		sFunc[sFunc.length] = aList[i].id + "@" + !aList[i].checked;
+	}
+	if(window.Event){
+		opener.saveWordStatus(sFunc);
+	}else {
+		dialogArguments.saveWordStatus(sFunc);
+	}
+}
+getStatus();
+</script>
+</body>
+</html>

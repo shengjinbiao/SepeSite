@@ -1,0 +1,145 @@
+<table summary="" id="pagehead" cellpadding="0" cellspacing="0" border="0" width="100%">
+	<tr>
+		<td><h1>用户管理</h1></td>
+	</tr>
+</table>
+<!--{if $_GET['op'] == 'manage'}-->
+<div class="mainarea">
+	<form method="post" action="$cpurl?action=member&uid=$uid">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="bdrcontent">
+		<div class="title">
+			<h3>$member[username] 基本信息</h3>
+		</div>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr><th style="width:12em;">用户名</th><td>$member[username]</td></tr>
+		<tr><th>头像</th><td><a href="$s_url/space.php?uid=$member[uid]" target="_blank"><img src="$avatarstr" alt="$member[username]" class="avatar" /></a></td></tr>
+		<tr><th>开通时间</th><td>$member[dateline]</td></tr>
+		<tr><th>更新时间</th><td>$member[updatetime]</td></tr>
+		<tr><th>上次登录</th><td>$member[lastlogin]</td></tr>
+		<tr><th>上次搜索</th><td>$member[lastsearchtime]</td></tr>
+		<tr><th>上次登录IP</th><td>$member[ip]</td></tr>
+		<!--{if $member['flagstr']}-->
+		<tr><th>&nbsp;</th><td>$member[flagstr]</td></tr>
+		<!--{/if}-->
+		</table>
+	</div><br />
+	
+	<div class="bdrcontent">
+		<div class="title">
+			<h3>积分、经验值设置</h3>
+		</div>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr><th>积分数</th><td><input type="text" name="credit" class="t_input" value="$member[credit]" size="10"></td></tr>
+		<tr><th>经验值</th><td><input type="text" class="t_input" name="experience" value="$member[experience]" size="10"></td></tr>
+		</table>
+	</div><br />
+	
+	<div class="bdrcontent">
+		<div class="title">
+			<h3>$member[username] 属性设置</h3>
+		</div>
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr><th>用户组</th><td>
+			<select name="groupid">
+				<!--{if $member['flagstr']}--><option >选择用户组</option><!--{/if}-->
+			$groupstr
+			</select>
+		</td></tr>
+		<!--{if $member['flagstr']}-->
+		<tr><th>删除保护</th><td>
+			<input type="radio" name="flag" value="0"{$member[flagcheck][0]}> 不保护
+			<input type="radio" name="flag" value="1"{$member[flagcheck][1]}> 保护
+			<p>保护状态下，该用户将不能够在UCenter、以及本应用中删除。</p>
+			</td></tr>
+		</td></tr>
+		<!--{/if}-->
+		</table>
+	</div>
+	
+	<div class="footactions">
+		<input type="submit" name="usergroupsubmit" value="提交" class="submit">
+	</div>
+	</form>
+	
+
+	</div>
+<!--{else}-->
+	<form method="get" action="$cpurl">
+
+	<div class="block style4">
+		<table cellspacing="3" cellpadding="3">
+		<tr>
+			<th>用户UID</th><td><input type="text" name="uid" value="$_GET[uid]" size="10"></td>
+			<th>用户名</th><td><input type="text" name="username" value="$_GET[username]"></td>
+		</tr>
+		<tr>
+			<th>用户组</th><td>
+			<select name="groupid">
+			<option value="">不限制</option>
+			$groupstr
+			</select>
+			</td>
+		</tr>
+	
+		<tr><th>结果排序</th>
+		<td colspan="3">
+		<select name="orderby">
+		<option value="">默认排序</option>
+		<option value="dateline"$orderby[dateline]>建立时间</option>
+		<option value="updatetime"$orderby[updatetime]>更新时间</option>
+		</select>
+		<select name="ordersc">
+		<option value="desc"$ordersc[desc]>递减</option>
+		<option value="asc"$ordersc[asc]>递增</option>
+		</select>
+		<select name="perpage">
+		<option value="20"$perpages[20]>每页显示20个</option>
+		<option value="50"$perpages[50]>每页显示50个</option>
+		<option value="100"$perpages[100]>每页显示100个</option>
+		</select>
+		<input type="hidden" name="action" value="$action">
+		<input type="submit" name="searchsubmit" value="搜索" class="submit">
+		</td>
+		</tr>
+		</table>
+	</div>
+	</form>
+		<!--{if $list}-->
+		<div class="bdrcontent">
+	
+		<form method="post" action="$cpurl?action=$ac&perpage=$perpage&page=$page">
+		<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+			<table cellspacing="2" cellpadding="2" class="formtable">
+			<tr>
+			<th width="135">头像</th>
+			<th>用户/姓名</th>
+			<th>详情</th>
+			<th width="80">操作</th>
+			</tr>
+			<!--{loop $list $value}-->
+			<tr>
+			<td align="center"><a href="$s_url/space.php?uid=$value[uid]" target="_blank"><img src="$value[avatar]" alt="$value[username]" class="avatar" /></a></td>
+			<td>
+				帐号: <a href="$s_url/space.php?uid=$value[uid]" target="_blank">$value[username]</a><br>
+			</td>
+			<td>
+				组别: <a href="$cpurl?action=member&groupid=$value[groupid]">$value[grouptitle]</a><br>
+				更新: $value[updatetime]<br>
+			</td>
+			<td><a href="$cpurl?action=member&op=manage&uid=$value[uid]">管理</a><br></td>
+			</tr>
+			<!--{/loop}-->
+			</table>
+		</div>
+		
+		<div class="footactions">
+			$multi
+		</div>
+		</form>
+		<!--{else}-->
+		<div class="bdrcontent">
+			<p>指定条件下还没有数据</p>
+		</div>
+		<!--{/if}-->
+<!--{/if}-->

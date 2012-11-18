@@ -1,0 +1,734 @@
+
+<table summary="" id="pagehead" cellpadding="0" cellspacing="0" border="0" width="100%">
+	<tr>
+		<td><h1>系统设置</h1></td>
+		<td class="actions"></td>
+	</tr>
+</table>
+
+<form method="post" name="thevalueform" id="theform" action="{CPURL}?action=settings" enctype="multipart/form-data">
+
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+
+	<div class="colorarea01">
+		<table cellspacing="2" cellpadding="2" class="helptable">
+			<tr>
+				<td>
+					<ul>
+						<li>您通过本页面可以对站点基本信息、附件目录、html目录、图片水印、图片缩略图等进行参数设定。</li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<a name="base"></a>
+	<div class="colorarea02">
+
+		<h2>站点设置</h2>
+		<table cellspacing="0" cellpadding="0" width="100%"  class="maintable">
+
+			<tr id="tr_sitename">
+				<th>站点名称</th>
+				<td><input name="sitename" type="text" id="sitename" size="30" value="$thevalue[sitename]" /></td>
+			</tr>
+
+			<tr id="tr_closesite">
+				<th>暂时关闭站点</th>
+				<td>
+					<select name="closesite" id="closesite">
+					<option value="0"<!--{if !$thevalue[closesite]}--> selected<!--{/if}-->>站点开放</option>
+					<option value="1"<!--{if $thevalue[closesite]}--> selected<!--{/if}-->>站点关闭</option>
+					</select>
+				</td>
+			</tr>
+
+			<tr id="tr_closemessage">
+				<th>关闭站点的原因</th>
+				<td><textarea name="closemessage" style="width:98%;" rows="3">$thevalue[closemessage]</textarea></td>
+			</tr>
+
+			<tr id="tr_template">
+				<th>站点风格目录</th>
+				<td>
+					<select name="template" id="template">
+					<!--{loop $templatearr $key $value}-->
+					<option value="$key"<!--{if $key == $thevalue[template]}--> selected<!--{/if}-->>$value</option>
+					<!--{/loop}-->
+					</select>
+				</td>
+			</tr>
+
+			<tr id="tr_attachmentdirtype">
+				<th>站点附件归类方式</th>
+				<td>
+					<select name="attachmentdirtype" id="attachmentdirtype">
+					<!--{loop $attachmentdirtypearr $key $value}-->
+					<option value="$key"<!--{if $key == $thevalue[attachmentdirtype]}--> selected<!--{/if}-->>$value</option>
+					<!--{/loop}-->
+					</select>
+				</td>
+			</tr>
+
+			<tr id="tr_allowregister">
+				<th>站点是否开放注册</th>
+				<td>
+					<select name="allowregister" id="allowregister">
+					<option value="0"<!--{if !$thevalue[allowregister]}--> selected<!--{/if}-->>不开放</option>
+					<option value="1"<!--{if $thevalue[allowregister]}--> selected<!--{/if}-->>开放</option>
+					</select>
+				</td>
+			</tr>
+
+			<tr id="tr_registerrule">
+				<th>注册服务条款<p>用户注册的时候会显示并需要接受的服务条款。（支持html语言，换行使用&lt;br&gt;）</p></th>
+				<td><textarea name="registerrule" style="width:98%;" rows="3">$thevalue[registerrule]</textarea></td>
+			</tr>
+
+			<tr id="tr_allowcache">
+				<th>启用缓存<p>强烈建议开启。不开启的话，将严重影响服务器负载</p></th>
+				<td>
+					<select name="allowcache" id="allowcache">
+					<option value="0"<!--{if !$thevalue[allowcache]}--> selected<!--{/if}-->>不开启缓存</option>
+					<option value="1"<!--{if $thevalue[allowcache]}--> selected<!--{/if}-->>开启缓存</option>
+					</select>
+				</td>
+			</tr>
+
+			<tr id="tr_cachemode">
+				<th>缓存存储方式</th>
+				<td>
+					<select name="cachemode" id="cachemode">
+					<option value="database"<!--{if $thevalue[cachemode] != 'file'}--> selected<!--{/if}-->>存储到数据库</option>
+					<option value="file"<!--{if $thevalue[cachemode] == 'file'}--> selected<!--{/if}-->>存储到文本</option>
+					</select>
+				</td>
+			</tr>
+
+			<tr id="tr_allowguestsearch">
+				<th>开放游客搜索</th>
+				<td>
+					<select name="allowguestsearch" id="allowguestsearch">
+					<option value="0"<!--{if !$thevalue[allowguestsearch]}--> selected<!--{/if}-->>不开放</option>
+					<option value="1"<!--{if $thevalue[allowguestsearch]}--> selected<!--{/if}-->>开放</option>
+					</select>
+				</td>
+			</tr>
+
+			<tr id="tr_allowguestdownload">
+				<th>开放游客下载附件</th>
+				<td>
+					<select name="allowguestdownload" id="allowguestdownload">
+					<option value="0"<!--{if !$thevalue[allowguestdownload]}--> selected<!--{/if}-->>不开放</option>
+					<option value="1"<!--{if $thevalue[allowguestdownload]}--> selected<!--{/if}-->>开放</option>
+					</select>
+				</td>
+			</tr>
+
+			<tr id="tr_allowtagshow">
+				<th>启用TAG秀功能<p>开启本功能后，系统会自动选取热门tag，并在内容中自动加入tag链接<p></th>
+				<td>
+					<select name="allowtagshow" id="allowtagshow">
+					<option value="0"<!--{if !$thevalue[allowtagshow]}--> selected<!--{/if}-->>不启用</option>
+					<option value="1"<!--{if $thevalue[allowtagshow]}--> selected<!--{/if}-->>启用</option>
+					</select>
+				</td>
+			</tr>
+
+			<tr id="tr_miibeian">
+				<th>网站备案信息<p>请输入您的网站在信息产业部的备案信息，例如:京ICP备04000001号</p></th>
+				<td><input name="miibeian" type="text" id="miibeian" size="30" value="$thevalue[miibeian]" /></td>
+			</tr>
+
+			<tr id="tr_searchinterval">
+				<th>搜索间隔时间(秒)<p>0表示不限制</p></th>
+				<td><input name="searchinterval" type="text" id="searchinterval" size="10" value="$thevalue[searchinterval]" /></td>
+			</tr>
+			<tr id="tr_searchinterval">
+				<th>投稿时间(秒)<p>0表示不限制</p></th>
+				<td><input name="searchinterval" type="text" id="posttime" size="10" value="$thevalue[posttime]" /></td>
+			</tr>
+			<tr id="tr_bbsurltype">
+				<th>论坛、uchome链接URL方式<p>设置当站点上面读取论坛版块列表,uchome日志，相册后，用户点击相关内容是直接进入相关应用查看，还是使用站点模式查看</p></th>
+				<td>
+					<select name="bbsurltype" id="bbsurltype">
+					<option value="site"<!--{if $thevalue[bbsurltype] != 'bbs'}--> selected<!--{/if}-->>站点模式</option>
+					<option value="bbs"<!--{if $thevalue[bbsurltype] == 'bbs'}--> selected<!--{/if}-->>链接到应用</option>
+					</select>
+				</td>
+			</tr>
+			<tr><th>$alang[allowpostnews]</th><td><input type="radio" name="allowpostnews" value="1" $checkedarr[1] />$alang[postnews_on]<input type="radio" name="allowpostnews" value="0" $checkedarr[0] />$alang[postnews_off]</td></tr>
+
+		</table>
+
+	</div>
+
+	<div class="buttons">
+		<input type="submit" name="thevaluesubmit" value="提交保存" class="submit" onclick="this.form.action+='&subtype=base';">
+		<input type="reset" name="thevaluereset" value="重置">
+	</div>
+
+	<a name="dir"></a>
+	
+	<div class="colorarea03">
+
+		<h2>本地路径设置</h2>
+		<table cellspacing="0" cellpadding="0" width="100%"  class="maintable">
+
+			<tr id="tr_attachmentdir">
+			<th>站点附件目录<p>可以为服务器绝对目录或者以 ./ 开头的相对目录(末尾不要加 / )</p></th>
+			<td><input name="attachmentdir" type="text" id="attachmentdir" size="30" value="$thevalue[attachmentdir]" /></td>
+			</tr>
+
+			<tr id="tr_attachmenturl">
+			<th>站点附件URL地址<p>如果您的站点附件目录为 ./ 开头的相对目录，该选项可以为空。否则，请填入以http://开头的URL地址(末尾不要加 / )</p></th>
+			<td><input name="attachmenturl" type="text" id="attachmenturl" size="30" value="$thevalue[attachmenturl]" /></td>
+			</tr>
+
+			<tr id="tr_htmldir">
+			<th>HTML存放目录<p>可以为服务器绝对目录或者以 ./ 开头的相对目录(末尾不要加 / )</p></th>
+			<td><input name="htmldir" type="text" id="htmldir" size="30" value="$thevalue[htmldir]" /></td>
+			</tr>
+
+			<tr id="tr_htmlurl">
+			<th>HTML的URL地址<p>如果您的HTML存放目录为 ./ 开头的相对目录，该选项可以为空。否则，请填入以http://开头的URL地址(末尾不要加 / )</p></th>
+			<td><input name="htmlurl" type="text" id="htmlurl" size="30" value="$thevalue[htmlurl]" /></td>
+			</tr>
+
+		</table>
+
+	</div>
+
+	<div class="buttons">
+		<input type="submit" name="thevaluesubmit" value="提交保存" class="submit" onclick="this.form.action+='&subtype=dir';">
+		<input type="reset" name="thevaluereset" value="重置">
+	</div>
+
+	<a name="thumb"></a>
+	
+	<div class="colorarea01">
+
+		<h2>缩略图设置</h2>
+		<table cellspacing="0" cellpadding="0" width="100%"  class="maintable">
+
+			<tr id="tr_thumbbgcolor">
+			<th>缩略图背景色</th>
+			<td><input name="thumbbgcolor" type="text" id="thumbbgcolor" size="30" value="$thevalue[thumbbgcolor]" /></td>
+			</tr>
+
+			<tr id="tr_thumboption">
+			<th>缩略图缩放模式</th>
+			<td>
+				<select name="thumboption" id="thumboption">
+				<!--{loop $thumboptionarr $key $value}-->
+				<option value="$key"<!--{if $key == $thevalue[thumboption]}--> selected<!--{/if}-->>$value</option>
+				<!--{/loop}-->
+				</select>
+			</td>
+			</tr>
+
+			<tr id="tr_thumbcutmode">
+			<th>缩略图剪贴模式</th>
+			<td><select name="thumbcutmode" id="thumbcutmode">
+			<option value="0"<!--{if $thevalue[thumbcutmode] == 0}--> selected<!--{/if}-->>默认模式</option>
+			<option value="1"<!--{if $thevalue[thumbcutmode] == 1}--> selected<!--{/if}-->>左或上剪切模式</option>
+			<option value="2"<!--{if $thevalue[thumbcutmode] == 2}--> selected<!--{/if}-->>中间剪切模式</option>
+			<option value="3"<!--{if $thevalue[thumbcutmode] == 3}--> selected<!--{/if}-->>右或下剪切模式</option>
+			</select>
+			</td>
+			</tr>
+
+			<tr id="tr_thumbcutstartx">
+			<th>剪切的起始横坐标<p>单位:像素(px)</p></th>
+			<td><input name="thumbcutstartx" type="text" id="thumbcutstartx" size="30" value="$thevalue[thumbcutstartx]" /></td>
+			</tr>
+
+			<tr id="tr_thumbcutstarty">
+			<th>剪切的起始纵坐标<p>单位:像素(px)</p></th>
+			<td><input name="thumbcutstarty" type="text" id="thumbcutstarty" size="30" value="$thevalue[thumbcutstarty]" /></td>
+			</tr>
+
+			<tr>
+			<th>资讯缩略图规格<p>默认规格400x300</p></th>
+			<td>宽度 <input type="text" name="thumbarray[news][0]" value="$thevalue[thumbarray][news][0]" size="5"> 像素, 高度 <input type="text" name="thumbarray[news][1]" value="$thevalue[thumbarray][news][1]" size="5"> 像素</td>
+			</tr>
+			
+		</table>
+
+	</div>
+
+	<div class="buttons">
+		<input type="submit" name="thevaluesubmit" value="提交保存" class="submit" onclick="this.form.action+='&subtype=thumb';">
+		<input type="reset" name="thevaluereset" value="重置">
+	</div>
+	
+	<a name="watermark"></a>
+	
+	<div class="colorarea02">
+
+		<h2>水印设置</h2>
+		<table cellspacing="0" cellpadding="0" width="100%"  class="maintable">
+
+			<tr id="tr_watermark">
+			<th>图片添加水印</th>
+			<td><input name="watermark" type="radio" value="0"<!--{if !$thevalue[watermark]}--> checked<!--{/if}--> />不添加水印&nbsp;&nbsp;
+				<input name="watermark" type="radio" value="1"<!--{if $thevalue[watermark]}--> checked<!--{/if}--> />添加水印&nbsp;&nbsp;</td>
+			</tr>
+
+			<tr id="tr_watermarkfile">
+			<th>水印图片文件地址<p>支持GIF和PNG两种水印图片，且GD库必须支持GIF和PNG</p></th>
+			<td><input name="watermarkfile" type="text" id="watermarkfile" size="30" value="$thevalue[watermarkfile]" /></td>
+			</tr>
+
+			<tr id="tr_">
+			<th>水印放置位置</th>
+			<td>
+				<table cellspacing="0" cellpadding="0" class="watermark">
+					<tr align="center">
+						<td><input type="radio" name="watermarkstatus" value="1"<!--{if $thevalue[watermarkstatus] == 1}--> checked<!--{/if}-->> #1</td>
+						<td><input type="radio" name="watermarkstatus" value="2"<!--{if $thevalue[watermarkstatus] == 2}--> checked<!--{/if}-->> #2</td>
+						<td><input type="radio" name="watermarkstatus" value="3"<!--{if $thevalue[watermarkstatus] == 3}--> checked<!--{/if}-->> #3</td>
+					</tr>
+					<tr>
+						<td><input type="radio" name="watermarkstatus" value="4"<!--{if $thevalue[watermarkstatus] == 4}--> checked<!--{/if}-->> #4</td>
+						<td><input type="radio" name="watermarkstatus" value="5"<!--{if $thevalue[watermarkstatus] == 5}--> checked<!--{/if}-->> #5</td>
+						<td><input type="radio" name="watermarkstatus" value="6"<!--{if $thevalue[watermarkstatus] == 6}--> checked<!--{/if}-->> #6</td>
+					</tr>
+					<tr>
+						<td><input type="radio" name="watermarkstatus" value="7"<!--{if $thevalue[watermarkstatus] == 7}--> checked<!--{/if}-->> #7</td>
+						<td><input type="radio" name="watermarkstatus" value="8"<!--{if $thevalue[watermarkstatus] == 8}--> checked<!--{/if}-->> #8</td>
+						<td><input type="radio" name="watermarkstatus" value="9"<!--{if $thevalue[watermarkstatus] == 9}--> checked<!--{/if}-->> #9</td>
+					</tr>
+				</table>
+			</td>
+			</tr>
+
+			<tr id="tr_watermarktrans">
+			<th>水印融合度<p>设置水印图片与原始图片的融合度，范围为 1~100 的整数，数值越大水印图片透明度越低</p></th>
+			<td><input name="watermarktrans" type="text" id="watermarktrans" size="30" value="$thevalue[watermarktrans]" /></td>
+			</tr>
+
+			<tr id="tr_watermarkjpgquality">
+			<th>图片生成质量<p>设置添加水印后的图片质量，范围为 1~100 的整数，数值越大质量越高，但是图片大小也越大</p></th>
+			<td><input name="watermarkjpgquality" type="text" id="watermarkjpgquality" size="30" value="$thevalue[watermarkjpgquality]" /></td>
+			</tr>
+
+		</table>
+
+	</div>
+
+	<div class="buttons">
+		<input type="submit" name="thevaluesubmit" value="提交保存" class="submit" onclick="this.form.action+='&subtype=watermark';">
+		<input type="reset" name="thevaluereset" value="重置">
+	</div>
+
+	<a name="rss"></a>
+
+	<div class="colorarea03">
+
+		<h2>RSS设置</h2>
+		<table cellspacing="0" cellpadding="0" width="100%"  class="maintable">
+
+			<tr id="tr_rssnum">
+			<th>默认RSS记录数</th>
+			<td><input name="rssnum" type="text" id="rssnum" size="30" value="$thevalue[rssnum]" /></td>
+			</tr>
+
+			<tr id="tr_rssupdatetime">
+			<th>RSS缓存自动更新间隔</th>
+			<td><input name="rssupdatetime" type="text" id="rssupdatetime" size="10" value="$thevalue[rssupdatetime]" />
+				<select name="slrssupdatetime" onchange="changevalue('rssupdatetime', this.value)">
+				<!--{loop $htmltimearr $key $value}-->
+				<option value="$key"<!--{if $key == $thevalue[rssupdatetime]}--> selected<!--{/if}-->>$value</option>
+				<!--{/loop}-->
+				</select></td>
+			</tr>
+
+		</table>
+
+	</div>
+
+	<div class="buttons">
+		<input type="submit" name="thevaluesubmit" value="提交保存" class="submit" onclick="this.form.action+='&subtype=rss';">
+		<input type="reset" name="thevaluereset" value="重置">
+	</div>
+	
+	<a name="seo"></a>
+
+	<div class="colorarea01">
+
+		<h2>搜索引擎优化</h2>
+		<table cellspacing="0" cellpadding="0" width="100%"  class="maintable">
+
+			<tr id="tr_urltype">
+			<th>站点链接URL方式<p>您可以根据自己的服务器情况选择合适的URL方式</p></th>
+			<td>
+				<select name="urltype" id="urltype">
+				<option value="1"<!--{if $thevalue[urltype] == 1}--> selected<!--{/if}-->>简短通用模式(URL较短但影响页面效率)</option>
+				<option value="4"<!--{if $thevalue[urltype] == 4}--> selected<!--{/if}-->>高效通用模式(页面效率高但URL较长)</option>
+				<option value="2"<!--{if $thevalue[urltype] == 2}--> selected<!--{/if}-->>简短APACHE模式(仅Apace服务器适用)</option>
+				<option value="5"<!--{if $thevalue[urltype] == 5}--> selected<!--{/if}-->>高效APACHE模式(仅Apace服务器适用)</option>
+				<option value="3"<!--{if $thevalue[urltype] == 3}--> selected<!--{/if}-->>简短REWRITE模式(需服务器REWRITE支持)</option>
+				</select>
+			</td>
+			</tr>
+
+			<tr id="tr_pagepostfix">
+			<th>站点链接URL后缀<p>仅在站点链接URL方式为简短模式下有效</p></th>
+			<td><input name="pagepostfix" type="text" id="pagepostfix" size="30" value="$thevalue[pagepostfix]" /></td>
+			</tr>
+
+			<tr id="tr_seotitle">
+			<th>标题附加字</th>
+			<td><input name="seotitle" type="text" id="seotitle" size="30" value="$thevalue[seotitle]" /></td>
+			</tr>
+
+			<tr id="tr_seokeywords">
+			<th>Meta Keywords</th>
+			<td><input name="seokeywords" type="text" id="seokeywords" size="30" value="$thevalue[seokeywords]" /></td>
+			</tr>
+
+			<tr id="tr_seodescription">
+			<th>Meta Description</th>
+			<td><input name="seodescription" type="text" id="seodescription" size="30" value="$thevalue[seodescription]" /></td>
+			</tr>
+
+			<tr id="tr_seohead">
+			<th>其他头部信息</th>
+			<td><textarea name="seohead" style="width:98%;" rows="6">$thevalue[seohead]</textarea></td>
+			</tr>
+
+		</table>
+
+	</div>
+
+	<div class="buttons">
+		<input type="submit" name="thevaluesubmit" value="提交保存" class="submit" onclick="this.form.action+='&subtype=seo';">
+		<input type="reset" name="thevaluereset" value="重置">
+	</div>
+	
+	<!--{if $_SC['freshhtml']}-->
+	<a name="html"></a>
+
+	<div class="colorarea01">
+
+		<h2>静态页生成</h2>
+		<table cellspacing="0" cellpadding="0" width="100%"  class="maintable">
+
+			<tr id="tr_makehtml">
+			<th>资讯静态化选择<br /><p>传统模式:动态生成，适合用户浏览<p><p>优化模式:全部静态生成，SEO效果好<p></th>
+			<td><input name="makehtml" type="radio" value="0" <!--{if !$thevalue[makehtml]}--> checked<!--{/if}--> />传统静态模式&nbsp;&nbsp;
+				<input name="makehtml" type="radio" value="1" <!--{if $thevalue[makehtml]}--> checked<!--{/if}--> />优化静态模式&nbsp;&nbsp;</td>
+			</tr>
+
+		</table>
+
+	</div>
+
+	<div class="buttons">
+		<input type="submit" name="thevaluesubmit" value="提交保存" class="submit" onclick="this.form.action+='&subtype=seo';">
+		<input type="reset" name="thevaluereset" value="重置">
+	</div>
+	<!--{/if}-->
+	
+	<a name="comments"></a>
+
+	<div class="colorarea02">
+
+		<h2>评论设置</h2>
+		<table cellspacing="0" cellpadding="0" width="100%"  class="maintable">
+
+			<tr>
+			<th>是否开启评论<p>在审查严的时候，可以暂时将评论全部功能关闭</p></th>
+			<td>
+				<input type="radio" name="commstatus" value="1"<!--{if $thevalue[commstatus]}--> checked<!--{/if}-->> 开启 
+				<input type="radio" name="commstatus" value="0"<!--{if !$thevalue[commstatus]}--> checked<!--{/if}-->> 关闭
+			</td>
+			</tr>
+
+			<tr>
+			<th>评论框背景图片<p>这里可放置本网站LOGO，也可以放广告图片。需要确保将该图片上传到程序的 ./images/comment/ 目录下面。</p></th>
+			<td>./images/comment/<input type="text" name="commicon" value="$thevalue[commicon]" size="15"></td>
+			</tr>
+
+			<tr>
+			<th>评论框默认文字</th>
+			<td><input name="commdefault" type="text" size="30" value="$thevalue[commdefault]" /></td>
+			</tr>
+
+			<tr>
+				<th>评论间隔时间<p>(为0时无间隔限制,单位:秒)</p></th>
+				<td><input type="text" name="commenttime" value="$thevalue[commenttime]" size=10></td>
+			</tr>
+
+			<tr>
+				<th>信息页评论条数<p>信息查看页下方评论显示的条数</p></th>
+				<td><input type="text" name="viewspace_pernum" value="$thevalue[viewspace_pernum]" size="10"></td>
+			</tr>
+			
+			<tr>
+				<th>评论查看页条数<p>评论查看页每页显示的条数</p></th>
+				<td><input type="text" name="commviewnum" value="$thevalue[commviewnum]" size="10"></td>
+			</tr>
+
+			<tr>
+				<th>排序方式<p>正序：适合评论的抢沙发和削层。倒序：适合盖楼和隐藏重复楼层。</p></th>
+				<td>
+					<select name="commorderby" id="commorderby">
+					<option value="1"<!--{if $thevalue[commorderby]}--> selected<!--{/if}-->>倒序</option>
+					<option value="0"<!--{if !$thevalue[commorderby]}--> selected<!--{/if}-->>正序</option>
+					</select>
+				</td>
+			</tr>
+
+			<tr>
+			<th>显示层数<p>盖楼时的层数，当数值偏小时可出现削层效果。0表示不限制，可呈现盖楼奇观。</p></th>
+			<td><input name="commfloornum" type="text" id="commfloornum" size="10" value="$thevalue[commfloornum]" /></td>
+			</tr>
+
+			<th>是否隐藏相同楼层<p>后面楼层程序会判断前面是否含有相同楼层，如果有会自动隐藏。排序方式为倒序效果最佳，正序时盖楼效果较差，因此当正序是不建议开启此功能。</p></th>
+				<td>
+					<input name="commhidefloor" type="radio" value="1"<!--{if $thevalue[commhidefloor]}--> checked<!--{/if}--> />允许&nbsp;&nbsp;
+					<input name="commhidefloor" type="radio" value="0"<!--{if !$thevalue[commhidefloor]}--> checked<!--{/if}--> />不允许&nbsp;&nbsp;
+				</td>
+			</tr>
+			
+			<tr id="tr_allowguest">
+				<th>开放游客评论</th>
+				<td>
+					<input name="allowguest" type="radio" value="1"<!--{if $thevalue[allowguest]}--> checked<!--{/if}--> />开放&nbsp;&nbsp;
+					<input name="allowguest" type="radio" value="0"<!--{if !$thevalue[allowguest]}--> checked<!--{/if}--> />不开放&nbsp;&nbsp;
+				</td>
+			</tr>
+			
+			<tr>
+			<th>是否允许匿名<p>登录后的会员可以隐藏自己真实身份。</p></th>
+				<td>
+					<input name="commanonymous" type="radio" value="1"<!--{if $thevalue[commanonymous]}--> checked<!--{/if}--> />允许&nbsp;&nbsp;
+					<input name="commanonymous" type="radio" value="0"<!--{if !$thevalue[commanonymous]}--> checked<!--{/if}--> />不允许&nbsp;&nbsp;
+				</td>
+			</tr>
+
+			<tr>
+				<th>是否显示IP<p>开启后，前台作者后面会出现ip:192.168.*.*类型的IP</p></th>
+				<td><input type="radio" name="commshowip" value="1"<!--{if $thevalue[commshowip]}--> checked<!--{/if}-->> 显示 
+					<input type="radio" name="commshowip" value="0"<!--{if !$thevalue[commshowip]}--> checked<!--{/if}-->> 不显示 
+				</td>
+			</tr>
+
+			<tr>
+			<th>是否允许隐藏IP<p>可以隐藏自己的ip，隐藏效果：ip:*.*.*.*</p></th>
+				<td><input type="radio" name="commhideip" value="1"<!--{if $thevalue[commhideip]}--> checked<!--{/if}-->> 允许 
+					<input type="radio" name="commhideip" value="0"<!--{if !$thevalue[commhideip]}--> checked<!--{/if}-->> 不允许 
+				</td>
+			</tr>
+
+			<tr>
+				<th>是否显示所在位置<p>开启后，前台作者前面会出现：广东东莞XXX</p></th>
+				<td><input type="radio" name="commshowlocation" value="1"<!--{if $thevalue[commshowlocation]}--> checked<!--{/if}-->> 显示 
+					<input type="radio" name="commshowlocation" value="0"<!--{if !$thevalue[commshowlocation]}--> checked<!--{/if}-->> 不显示
+				</td>
+			</tr>
+
+			<tr>
+				<th>是否允许隐藏所在位置<p>可以隐藏自己的位置，作者前面不会出现所在位置</p></th>
+				<td><input type="radio" name="commhidelocation" value="1"<!--{if $thevalue[commhidelocation]}--> checked<!--{/if}-->> 允许 
+					<input type="radio" name="commhidelocation" value="0"<!--{if !$thevalue[commhidelocation]}--> checked<!--{/if}-->> 不允许 
+				</td>
+			</tr>
+
+			<tr>
+				<th>是否开放辩论功能<p>开启后，当评论热度达到指定数量时自动开启</p></th>
+				<td><input type="radio" name="commdebate" value="1"<!--{if $thevalue[commdebate]}--> checked<!--{/if}-->> 开放 
+					<input type="radio" name="commdebate" value="0"<!--{if !$thevalue[commdebate]}--> checked<!--{/if}-->> 不开放 
+				</td>
+			</tr>
+
+			<tr>
+				<th>辩论界定值<p>当评论热度达到此数值时，自动开启辩论功能</p></th>
+				<td><input name="commdivide" type="text" size="10" value="$thevalue[commdivide]" /></td>
+			</tr>
+			
+		</table>
+
+	</div>
+
+	<div class="buttons">
+		<input type="submit" name="thevaluesubmit" value="提交保存" class="submit" onclick="this.form.action+='&subtype=comments';">
+		<input type="reset" name="thevaluereset" value="重置">
+	</div>
+
+	<a name="mail"></a>
+
+	<div class="colorarea02">
+
+	<h2>邮件设置</h2>
+	<table cellspacing="0" cellpadding="0" width="100%" class="maintable">
+		<tbody>
+			<tr>
+			<th style="width: 15em;">邮件发送方式</th>
+			<td>
+				<input type="radio" onclick="$('tb_smtp1').style.display = 'none';$('tb_smtp2').style.display = 'none';" value="1" name="mail[mailsend]" class="radio"<!--{if $_SC[mailsend] == 1 }--> checked<!--{/if}--> /> 通过 PHP 函数的 sendmail 发送(推荐此方式)<br/>
+				<input type="radio" onclick="$('tb_smtp1').style.display = '';$('tb_smtp2').style.display = '';" value="2" name="mail[mailsend]" class="radio"<!--{if $_SC[mailsend] == 2}--> checked<!--{/if}--> /> 通过 SOCKET 连接 SMTP 服务器发送(支持 ESMTP 验证)<br/>
+				<input type="radio" onclick="$('tb_smtp1').style.display = '';$('tb_smtp2').style.display = 'none';" value="3" name="mail[mailsend]" class="radio"<!--{if $_SC[mailsend] == 3}--> checked<!--{/if}--> /> 通过 PHP 函数 SMTP 发送 Email(仅 Windows 主机下有效, 不支持 ESMTP 验证)
+			</td>
+			</tr>
+			
+			<tr>
+			<th>邮件头的分隔符</th>
+			<td>
+				<input type="radio" value="0" name="mail[maildelimiter]" class="radio"<!--{if $mailcfg[maildelimiter] == 0}--> checked<!--{/if}--> /> 使用 LF 作为分隔符(通常为 Unix/Linux 主机)<br/>
+				<input type="radio" value="1" name="mail[maildelimiter]" class="radio"<!--{if $mailcfg[maildelimiter] == 1}--> checked<!--{/if}--> /> 使用 CRLF 作为分隔符(通常为 Windows 主机)<br/>
+				<input type="radio" value="2" name="mail[maildelimiter]" class="radio"<!--{if $mailcfg[maildelimiter] == 2}--> checked<!--{/if}--> /> 使用 CR 作为分隔符(通常为 Mac 主机)
+			</td>
+			</tr>
+			
+			<tr>
+			<th>收件人显示用户名</th>
+			<td>
+				<input type="radio" checked="" value="1" name="mail[mailusername]" class="radio"<!--{if $mailcfg[mailusername]}--> checked<!--{/if}--> /> 是    
+				<input type="radio" value="0" name="mail[mailusername]" class="radio"<!--{if !$mailcfg[mailusername]}--> checked<!--{/if}-->  /> 否    
+			</td>
+			</tr>
+		</tbody>
+
+		<tbody id="tb_smtp1" $smtparr[1] >
+		<tr>
+		<th></th>
+		<td>
+			<table>
+			<tbody>
+				<tr>
+				<td width="120">SMTP 服务器</td>
+				<td><input type="text" name="mail[server]" value="$mailcfg[server]" /></td>
+				</tr>
+				<tr>
+				<td>SMTP 端口</td>
+				<td><input type="text" size="5" name="mail[port]" value="$mailcfg[port]" /> 默认为 25</td>
+				</tr>
+			</tbody>
+				
+			<tbody id="tb_smtp2" $smtparr[2] >
+				<tr>
+				<td>要求身份验证</td>
+				<td><input type="radio" checked="" value="1" name="mail[auth]" class="radio"<!--{if $mailcfg[auth]}--> checked<!--{/if}--> /> 是     
+					<input type="radio" value="0" name="mail[auth]" class="radio"<!--{if !$mailcfg[auth]}--> checked<!--{/if}--> /> 否</td>
+				</tr>
+				<tr>
+				<td>发信人邮件地址</td>
+				<td><input type="text" name="mail[from]" value="$mailcfg[from]" /><br/>格式为“username &lt;user@domain.com&gt;”，也可以只填地址</td>
+				</tr>
+				<tr>
+				<td>SMTP 用户名</td>
+				<td><input type="text" value="$mailcfg[auth_username]" name="mail[auth_username]"/></td>
+				</tr>
+				<tr>
+				<td>SMTP 密码</td>
+				<td><input type="password" value="$mailcfg[auth_password]" name="mail[auth_password]"/></td>
+				</tr>
+			</tbody>
+			</table>
+		</td>
+		</tr>
+		
+	</tbody></table>
+
+	</div>
+	
+	<div class="buttons">
+		<input type="submit" name="thevaluesubmit" value="提交保存" class="submit" onclick="this.form.action+='&subtype=mail';">
+		<input type="reset" name="thevaluereset" value="重置">
+	</div>
+
+	<a name="other"></a>
+
+	<div class="colorarea02">
+
+		<h2>其他管理</h2>
+		<table cellspacing="0" cellpadding="0" width="100%"  class="maintable">
+
+			<tr id="tr_gzipcompress">
+			<th>页面GZIP压缩</th>
+			<td>
+				<input name="gzipcompress" type="radio" value="0"<!--{if !$thevalue[gzipcompress]}--> checked<!--{/if}--> />不启用GZIP压缩&nbsp;&nbsp;
+				<input name="gzipcompress" type="radio" value="1"<!--{if $thevalue[gzipcompress]}--> checked<!--{/if}--> />启用GZIP压缩&nbsp;&nbsp;</td>
+			</tr>
+
+			<tr id="tr_debug">
+			<th>显示程序运行信息</th>
+			<td>
+				<input name="debug" type="radio" value="0"<!--{if !$thevalue[debug]}--> checked<!--{/if}--> />不显示&nbsp;&nbsp;
+				<input name="debug" type="radio" value="1"<!--{if $thevalue[debug]}--> checked<!--{/if}--> />显示&nbsp;&nbsp;</td>
+			</tr>
+
+			<tr id="tr_updateview">
+			<th>是否开启防刷新<p>注意:不开启防刷新会增加服务器负担</p></th>
+			<td><input name="updateview" type="radio" value="0"<!--{if !$thevalue[updateview]}--> checked<!--{/if}--> />不防刷新&nbsp;&nbsp;
+				<input name="updateview" type="radio" value="1"<!--{if $thevalue[updateview]}--> checked<!--{/if}--> />防刷新&nbsp;&nbsp;</td>
+			</tr>
+
+			<tr id="tr_">
+			<th>自定义审核等级别名<p>系统提供五个等级的信息审核级别，您可以为这五个审核等级指定别名</p></th>
+			<td>
+				<table>
+					<tr><td>一等级</td><td><input type="text" name="checkgrade[]" value="$checkgrade[0]" size="20"></td></tr>
+					<tr><td>二等级</td><td><input type="text" name="checkgrade[]" value="$checkgrade[1]" size="20"></td></tr>
+					<tr><td>三等级</td><td><input type="text" name="checkgrade[]" value="$checkgrade[2]" size="20"></td></tr>
+					<tr><td>四等级</td><td><input type="text" name="checkgrade[]" value="$checkgrade[3]" size="20"></td></tr>
+					<tr><td>五等级</td><td><input type="text" name="checkgrade[]" value="$checkgrade[4]" size="20"></td></tr>
+				</table>
+			</td>
+			</tr>
+
+			<tr id="tr_timeoffset">
+			<th>系统默认时区</th>
+			<td>
+				<select name="timeoffset" id="timeoffset">
+				<!--{loop $timeoffsetarr $key $value}-->
+				<option value="$key"<!--{if $key == $thevalue[timeoffset]}--> selected<!--{/if}-->>$value</option>
+				<!--{/loop}-->
+				</select>
+			</td>
+			</tr>
+
+			<tr>
+				<th>是否禁止验证码功能</th>
+				<td><input type="radio" name="noseccode" value="0"<!--{if !$thevalue[noseccode]}--> checked<!--{/if}-->> 使用验证码 
+					<input type="radio" name="noseccode" value="1"<!--{if $thevalue[noseccode]}--> checked<!--{/if}-->> 禁止使用 </td>
+			</tr>
+			
+			<tr>
+				<th>是否开启资讯干扰码</th>
+				<td><input type="radio" name="newsjammer" value="1"<!--{if $thevalue[newsjammer]}--> checked<!--{/if}-->> 开启干扰码 
+					<input type="radio" name="newsjammer" value="0"<!--{if !$thevalue[newsjammer]}--> checked<!--{/if}-->> 禁止干扰码 
+				</td>
+			</tr>
+
+			<tr>
+				<th>首页显示友情链接数</th>
+				<td><input type="text" name="showindex" value="$thevalue[showindex]" size=10></td>
+			</tr>
+
+			<tr>
+				<th>是否开启事件推送功能</th>
+				<td><input type="radio" name="allowfeed" value="1"<!--{if $thevalue[allowfeed]}--> checked<!--{/if}-->> 启用 
+					<input type="radio" name="allowfeed" value="0"<!--{if !$thevalue[allowfeed]}--> checked<!--{/if}-->> 不启用</td>
+			</tr>
+
+			<tr>
+				<th>加入事件设置</th>
+				<td><input type="checkbox" name="addfeed[1]" value="1"$feedchecks[1]> 主题 
+				<input type="checkbox" name="addfeed[2]" value="1"$feedchecks[2]> 回复</td>
+			</tr>
+			
+		</table>
+
+	</div>
+
+	<div class="buttons">
+		<input type="submit" name="thevaluesubmit" value="提交保存" class="submit" onclick="this.form.action+='&subtype=other';">
+		<input type="reset" name="thevaluereset" value="重置">
+	</div>
+
+</form>
+

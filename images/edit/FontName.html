@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE>Fone Name</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="">
+<META NAME="Keywords" CONTENT="">
+<META NAME="Description" CONTENT="">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<style type="text/css">
+body{
+	overflow:hidden;
+	margin:0px;
+	padding:0px;
+	padding-top:1px;
+	background:url("bgcolor.gif")
+}
+.Aout{
+	color:#555;
+	width:98%;
+	font-size:14px;
+	border:1px solid #fff;
+	padding: 2px;
+}
+.Aover{
+	color:#000;
+	border:1px solid #999;
+	background:#eee;
+	font-size:14px;
+	width:98%;
+	padding: 2px;
+}
+</style>
+<script type="text/javascript">
+function setCmd(_sSort, _sFont){
+	if(window.Event){
+		var oRTE = opener.getFrameNode(opener.sRTE);
+	}else {
+		var oRTE = dialogArguments.getFrameNode(dialogArguments.sRTE);
+	}
+	oRTE.focus();
+	oRTE.document.execCommand(_sSort, false, _sFont);
+	oRTE.focus();
+}
+function _over(o) {
+	o.className="Aover";
+}
+function _out(o) {
+	o.className="Aout";
+}
+</script>
+</HEAD>
+<BODY>
+<center>
+  <div class="Aout" onmouseover="_over(this)" onmouseout="_out(this)" onclick="setCmd('FontName', '黑体')" style="font-family:黑体;">黑体</div>
+  <div class="Aout" onmouseover="_over(this)" onmouseout="_out(this)" onclick="setCmd('FontName', '隶书')" style="font-family:隶书;">隶书</div>
+  <div class="Aout" onmouseover="_over(this)" onmouseout="_out(this)" onclick="setCmd('FontName', '宋体')" style="font-family:宋体;">宋体</div>
+  <div class="Aout" onmouseover="_over(this)" onmouseout="_out(this)" onclick="setCmd('FontName', '楷体_GB2312')" style="font-family:楷体_GB2312;">楷体</div>
+  <div class="Aout" onmouseover="_over(this)" onmouseout="_out(this)" onclick="setCmd('FontName', '幼圆')" style="font-family:幼圆;">幼圆</div>
+  <div class="Aout" onmouseover="_over(this)" onmouseout="_out(this)" onclick="setCmd('FontName', 'Arial')" style="font-family:Arial;">Arial</div>
+  <div class="Aout" onmouseover="_over(this)" onmouseout="_out(this)" onclick="setCmd('FontName', 'Courier New')" style="font-family:Courier New;">Courier New</div>
+  <div class="Aout" onmouseover="_over(this)" onmouseout="_out(this)" onclick="setCmd('FontName', 'Georgia')" style="font-family:Georgia;">Georgia</div>
+  <div class="Aout" onmouseover="_over(this)" onmouseout="_out(this)" onclick="setCmd('FontName', 'Times New Roman')" style="font-family:Times New Roman;">Times New Roman</div>
+  <div class="Aout" onmouseover="_over(this)" onmouseout="_out(this)" onclick="setCmd('FontName', 'Verdana')" style="font-family:Verdana;">Verdana</div>
+  <div class="Aout" onmouseover="_over(this)" onmouseout="_out(this)" onclick="setCmd('FontName', 'impact')" style="font-family:impact;">impact</div>
+</center>
+</BODY>
+</HTML>

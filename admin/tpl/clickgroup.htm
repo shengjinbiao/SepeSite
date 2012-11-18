@@ -1,0 +1,133 @@
+<div class="mainarea">
+
+<div class="tabs_header">
+	<ul class="tabs">
+		<li><a href="{CPURL}?action=click"><span>浏览分组</span></a></li>
+		<li class="null"><a href="{CPURL}?action=click&op=add">添加新分组</a></li>
+		<li><a href="{CPURL}?action=click&type=click"><span>浏览全部动作</span></a></li>
+		<li class="null"><a href="{CPURL}?action=click&type=click&op=add">添加新动作</a></li>
+	</ul>
+</div>
+
+<!--{if empty($_GET['op'])}-->
+
+	<div class="bdrcontent">
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr>
+			<th width="40">id</th>
+			<th>分组名称</th>
+			<th width="70">系统类型</th>
+			<th width="70">有无展开</th>
+			<th width="70">时间范围</th>
+			<th width="70">允许重复</th>
+			<th width="70">允许游客</th>
+			<th width="70">有无排行</th>
+			<th width="40">状态</th>
+			<th width="70">类型</th>
+			<th width="80">&nbsp;</th>
+		</tr>
+		<!--{eval $spreadtimes = array('0'=>'不限制', '7200'=>'2小时内', '14400'=>'4小时内', '28800'=>'8小时内', '86400'=>'24小时内', '604800'=>'7天内', '2592000'=>'30天内');}-->
+		<!--{eval $idtypename = array('spaceitems'=>'文章频道', 'models'=>'模型', 'spacecomments'=>'评论', 'postitems'=>'文章投稿', 'postmodels'=>'模型投稿');}-->
+		<!--{loop $list $value}-->
+		<tr>
+			<td>$value[groupid]</td>
+			<td><a href="{CPURL}?action=click&type=click&gid=$value[groupid]">$value[grouptitle]</a></td>
+			<td>$idtypename[$value[idtype]]</td>
+			<td><a href="{CPURL}?action=click&op=spread&groupid=$value[groupid]"><!--{if $value['allowspread']}-->有<!--{else}-->无<!--{/if}--></a></td>
+			<td>$spreadtimes[$value[spreadtime]]</td>
+			<td><a href="{CPURL}?action=click&op=repeat&groupid=$value[groupid]"><!--{if $value['allowrepeat']}-->是<!--{else}-->否<!--{/if}--></a></td>
+			<td><a href="{CPURL}?action=click&op=guest&groupid=$value[groupid]"><!--{if $value['allowguest']}-->是<!--{else}-->否<!--{/if}--></a></td>
+			<td><a href="{CPURL}?action=click&op=top&groupid=$value[groupid]"><!--{if $value['allowtop']}-->有<!--{else}-->无<!--{/if}--></a></td>
+			<td><a href="{CPURL}?action=click&op=status&groupid=$value[groupid]"><!--{if $value['status']}-->开启<!--{else}-->关闭<!--{/if}--></a></td>
+			<td><!--{if $value['system']}-->系统功能<!--{else}-->-<!--{/if}--></td>
+			<td>
+				<a href="{CPURL}?action=click&op=edit&groupid=$value[groupid]">编辑</a>
+				<!--{if !$value[system]}-->
+				 | 
+				<a href="{CPURL}?action=click&op=delete&groupid=$value[groupid]" onclick="return confirm('删除不可恢复\n确认删除？');">删除</a>
+				<!--{/if}-->
+			</td>
+		</tr>
+		<!--{/loop}-->
+		</table>
+	</div>
+
+<!--{elseif $_GET['op'] == 'add' || $_GET['op'] == 'edit'}-->
+
+	<form method="post" action="{CPURL}?action=click">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	
+	<div class="bdrcontent">
+		
+		<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr><th style="width:12em;">动作名称</th>
+			<td><input type="text" name="grouptitle" value="$group[grouptitle]"></td></tr>
+		<tr><th>标题图片</th>
+			<td>./images/click/<input type="text" name="icon" value="$group[icon]" size="15">
+			<br>需要确保将该图片上传到程序的 ./images/click/ 目录下面。
+			</td></tr>
+		<tr><th>系统类型</th>
+			<td>
+			<!--{if $_GET[op] != 'edit'}-->
+				<select name="idtype">
+				<optgroup label="频道">
+				<!--{loop $channels['menus'] $value}-->
+				<!--{if $value[type]=='type' || $value[upnameid]=='news'}-->
+				<option value="spaceitems">$value[name]</option>
+				<!--{elseif $value[type]=='model'}-->
+				<option value="models_{$value[nameid]}">$value[name]</option>
+				<!--{/if}-->
+				<!--{/loop}-->
+				</optgroup>
+				</select>
+				<br />请选择点击器所出现的位置
+			<!--{else}-->
+				<!--{eval $idtypename = array('spaceitems'=>'文章频道', 'models'=>'模型', 'spacecomments'=>'评论', 'postitems'=>'文章投稿', 'postmodels'=>'模型投稿');}-->
+				$idtypename[$group[idtype]] $modelarr['modelalias']
+			<!--{/if}-->
+			</td></tr>
+		<tr><th>有无展开</th>
+			<td><input type="radio" name="allowspread" value="1"<!--{if $group[allowspread]}--> checked<!--{/if}-->> 是
+				<input type="radio" name="allowspread" value="0"<!--{if !$group[allowspread]}--> checked<!--{/if}-->> 否
+				<br />其表现形式是心情下面的，XX最多的。例如 感动最多的，路过最多的。如果选择是，这里就会有体现。</td></tr>
+		<tr><th>时间范围</th>
+			<td>
+			<select name="spreadtime">
+			<option value="0">不限制</option>
+			<option value="7200"<!--{if $group[spreadtime] == 7200}--> selected<!--{/if}-->>2小时内</option>
+			<option value="14400"<!--{if $group[spreadtime] == 14400}--> selected<!--{/if}-->>4小时内</option>
+			<option value="28800"<!--{if $group[spreadtime] == 28800}--> selected<!--{/if}-->>8小时内</option>
+			<option value="86400"<!--{if $group[spreadtime] == 86400}--> selected<!--{/if}-->>24小时内</option>
+			<option value="604800"<!--{if $group[spreadtime] == 604800}--> selected<!--{/if}-->>7天内</option>
+			<option value="2592000"<!--{if $group[spreadtime] == 2592000}--> selected<!--{/if}-->>30天内</option>
+			</select> 
+			<br />“有无展开”选择“是”后。可以设定时间范围，可以限定在一个时间内的最多的。
+			</td></tr>
+		<tr><th>允许重复点击</th>
+			<td><input type="radio" name="allowrepeat" value="1"<!--{if $group[allowrepeat]}--> checked<!--{/if}-->> 是
+				<input type="radio" name="allowrepeat" value="0"<!--{if !$group[allowrepeat]}--> checked<!--{/if}-->> 否 
+				<br />如果选择“否”，每个用户只能点击一次，游客状态时，一个ip只能点击一次。</td></tr>
+		<tr><th>允许游客参与</th>
+			<td><input type="radio" name="allowguest" value="1"<!--{if $group[allowguest]}--> checked<!--{/if}-->> 是
+				<input type="radio" name="allowguest" value="0"<!--{if !$group[allowguest]}--> checked<!--{/if}-->> 否 
+				<br />游客可以参与打分。</td></tr>
+		<tr><th>有无排行</th>
+			<td><input type="radio" name="allowtop" value="1"<!--{if $group[allowtop]}--> checked<!--{/if}-->> 有
+				<input type="radio" name="allowtop" value="0"<!--{if !$group[allowtop]}--> checked<!--{/if}-->> 无 
+				<br />如果选择“有”，在排行榜将出现本点击器的排行。</td></tr>
+		<tr><th>状态</th>
+			<td><input type="radio" name="status" value="1"<!--{if $group[status]}--> checked<!--{/if}-->> 开启
+				<input type="radio" name="status" value="0"<!--{if !$group[status]}--> checked<!--{/if}-->> 关闭 
+				<br />如果选择“关闭”，本点击器的任何操作都将关闭。</td></tr>
+		</table>
+	</div>
+	
+	<div class="footactions">
+		<input type="hidden" name="groupid" value="$group[groupid]">
+		<input type="submit" name="groupsubmit" value="提交" class="submit">
+	</div>
+
+	</form>
+
+<!--{/if}-->
+</div>

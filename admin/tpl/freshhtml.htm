@@ -1,0 +1,48 @@
+
+<table summary="" id="pagehead" cellpadding="0" cellspacing="0" border="0" width="100%">
+	<tr>
+		<td><h1>生成HTML</h1></td>
+		<td class="actions">
+			<table summary="" cellpadding="0" cellspacing="0" border="0" align="right">
+				<tr>
+					<td$defaultclass[index]><a href="$theurl&op=index" class="view">更新首页</a></td>
+					<td$defaultclass[channel]><a href="$theurl&op=channel" class="view">更新频道</a></td>
+					<td$defaultclass[making]><a href="$theurl&op=making" class="view">继续生成</a></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+
+<!--{if $op == 'channel'}-->
+
+	<form method="post" action="{CPURL}?action=freshhtml">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+		
+	<div class="bdrcontent">
+		
+		<table cellspacing="0" cellpadding="0" class="formtable">
+			<tr>
+				<th style="width:12em;">选择频道</th>
+				<td>
+					<select name='channels[]' id='channel' multiple="multiple" style="height:250px;width:250px;">
+						<option value='0'>全部频道</option>
+						<!--{loop $channels[menus] $value}-->
+						<option value='$value[nameid]' >$value[name]</option>
+						<!--{/loop}-->
+						<!--{loop $otherchannels $value}-->
+						<option value='$value[nameid]' >$value[name]</option>
+						<!--{/loop}-->
+					</select>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<div class="footactions">
+		<input type="submit" name="channelsubmit" value="提交" class="submit">
+	</div>
+
+	</form>
+
+<!--{/if}-->

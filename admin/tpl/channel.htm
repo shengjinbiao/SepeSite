@@ -1,0 +1,246 @@
+
+<table summary="" id="pagehead" cellpadding="0" cellspacing="0" border="0" width="100%">
+	<tr>
+		<td><h1>功能频道设置</h1></td>
+		<td class="actions">
+			<table summary="" cellpadding="0" cellspacing="0" border="0" align="right">
+				<tr>
+					<td$viewclass><a href="$theurl" class="view">功能频道设置</a></td>
+					<td$addclass><a href="$theurl&op=add" class="add">创建频道</a></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+
+<!--{if $thevalue}-->
+<script language="javascript">
+<!--
+function thevalidate(theform) {
+	return true;
+}
+//-->
+</script>
+<form method="post" name="thevalueform" id="theform" action="$theurl" enctype="multipart/form-data" onSubmit="return validate(this)">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<div class="colorarea01">
+	<table cellspacing="0" cellpadding="0" width="100%"  class="maintable">
+		<tr id="tr_name">
+			<th>频道名</th>
+			<td><input name="name" type="text" id="name" size="30" value="$thevalue[name]" /></td>
+		</tr>
+		<tr id="tr_nameid">
+			<th>英文ID(请不要包含下划线)</th>
+			<td><!--{if $_GET['op']=='edit'}-->$thevalue[nameid]<!--{else}--><input name="nameid" type="text" id="nameid" size="30" value="$thevalue[nameid]" /><!--{/if}--></td>
+		</tr>
+		<tr id="tr_url">
+			<th>访问地址</th>
+			<td><input name="url" type="text" id="url" size="30" value="$thevalue[url]" /></td>
+		</tr>
+		<!--{if $_SC['freshhtml']}-->
+		<tr id="tr_path">
+			<th>静态页目录</th>
+			<td><input name="path" type="text" id="path" size="30" value="$thevalue[path]" /></td>
+		</tr>
+		<tr id="tr_domain">
+			<th>频道域名</th>
+			<td><input name="domain" type="text" id="domain" size="30" value="$thevalue[domain]" /></td>
+		</tr>
+		<!--{/if}-->
+		<tr id="tr_type">
+			<th>类型</th>
+			<td>
+				<!--{if $_GET['op']!='edit'}-->
+				<input name="type" type="radio" value="channel"<!--{if !$thevalue[type]}--> checked<!--{/if}--> onclick="checktype('tr_usesample');readonlyall(this.form, true);" />单个页面&nbsp;&nbsp;
+				<input name="type" type="radio" value="news"<!--{if $thevalue[type]}--> checked<!--{/if}-->  onclick="checktype('tr_category');readonlyall(this.form, false);" />文章频道&nbsp;&nbsp;
+				<!--{else}-->
+				<!--{eval $typearr = array('type'=>'内置','system'=>'聚合','model'=>'模型','user'=>'自定义');}-->
+				$typearr[$thevalue[type]]<!--{if $thevalue[type]=='user'}--> 
+				<!--{if $thevalue[upnameid]=='news'}-->文章频道<!--{else}-->单个页面<!--{/if}--><!--{/if}-->
+				<!--{/if}-->
+				</td>
+		</tr>
+		<!--{if $_GET['op']!='edit'}-->
+		<tr id="tr_usesample"<!--{if $thevalue[type]}--> style="display:none;"<!--{/if}-->>
+			<th>生成基本运行文件<p>选择该项，则系统会为该频道生成基本的PHP程序文件和模板文件</p></th>
+			<td><input name="usesample" type="radio" value="1"<!--{if $thevalue[usesample]}--> checked<!--{/if}--> />生成&nbsp;&nbsp;
+				<input name="usesample" type="radio" value="0"<!--{if !$thevalue[usesample]}--> checked<!--{/if}--> />不生成&nbsp;&nbsp;</td>
+		</tr>
+		<tr id="tr_category"<!--{if !$thevalue[type]}--> style="display:none;"<!--{/if}-->>
+			<th>文章分类<p>一行一个分类，多个元素用"回车"格开。</p></th>
+			<td><img src="{S_URL}/admin/images/zoomin.gif" onmouseover="this.style.cursor='pointer'" onclick="zoomtextarea('category', 1)"> 
+				<img src="{S_URL}/admin/images/zoomout.gif" onmouseover="this.style.cursor='pointer'" onclick="zoomtextarea('category', 0)"><br>
+				<textarea name="category" rows="8" id="category" cols="37"></textarea></td>
+		</tr>
+		<!--{/if}-->
+		<!--{if in_array($channels[menus][$thevalue[nameid]][type], array('type')) || ($channels[menus][$thevalue[nameid]][type]=='user' && $channels[menus][$thevalue[nameid]][upnameid]=='news')}-->
+		<tr id="tr_tpl"<!--{if !$thevalue[type]}--> style="display:none;"<!--{/if}-->>
+			<th>频道首页模板<p>可参考news_index.html.php，如果不设置系统采用默认值。</p></th>
+			<td>./templates/$_SCONFIG[template]/<input name="tpl" type="text" id="tpl" size="30" value="$thevalue[tpl]" />.html.php<br />
+				需要确保将该模板文件上传到模板的 ./templates/$_SCONFIG[template]/ 目录下面。</td>
+		</tr>
+		<tr id="tr_categorytpl"<!--{if !$thevalue[type]}--> style="display:none;"<!--{/if}-->>
+			<th>频道分类页模板<p>可参考news_category.html.php，如果不设置系统采用默认值。</p></th>
+			<td>./templates/$_SCONFIG[template]/<input name="categorytpl" type="text" id="categorytpl" size="30" value="$thevalue[categorytpl]" />.html.php<br />
+				需要确保将该模板文件上传到模板的 ./templates/$_SCONFIG[template]/ 目录下面。</td>
+		</tr>
+		<tr id="tr_viewtpl"<!--{if !$thevalue[type]}--> style="display:none;"<!--{/if}-->>
+			<th>频道查看页模板<p>可参考news_view.html.php，如果不设置系统采用默认值。</p></th>
+			<td>./templates/$_SCONFIG[template]/<input name="viewtpl" type="text" id="viewtpl" size="30" value="$thevalue[viewtpl]" />.html.php<br />
+				需要确保将该模板文件上传到模板的 ./templates/$_SCONFIG[template]/ 目录下面。</td>
+		</tr>
+		<!--{/if}-->
+	</table>
+	</div>
+	<br />
+	<div class="colorarea01">
+	<h2>权限配置</h2>
+	<table cellspacing="0" cellpadding="0" width="100%"  class="maintable">
+		<tr>
+			<th>&nbsp;</th>
+			<th align="center"><input type="checkbox" onclick="checkall(this.form, 'viewperm', 'chkallview');" name="chkallview" />浏览</th>
+			<th align="center"><input type="checkbox" onclick="checkall(this.form, 'postperm', 'chkallpost');" name="chkallpost"  />投稿</th>
+			<th><input type="checkbox" onclick="checkall(this.form, 'commentperm', 'chkallcomment');" name="chkallcomment" />评论</th>
+			<th><input type="checkbox" onclick="checkall(this.form, 'getattachperm', 'chkallgetattach');" name="chkallgetattach"  />下载</th>
+			<th><input type="checkbox" onclick="checkall(this.form, 'postattachperm', 'chkallpostattach');" name="chkallpostattach" />上传</th>
+			<th align="center"><input type="checkbox" onclick="checkall(this.form, 'manageperm', 'chkallmanage');" name="chkallmanage" />后台管理</th>
+		</tr>
+		<!--{loop $_SGLOBAL['grouparr'] $value}-->
+		<tr>
+			<th><input type="checkbox" onclick="checkall(this.form, '$value[groupid]', 'groupname_$value[groupid]', 'value');" name="groupname_$value[groupid]" />$value[grouptitle]</th>
+			<td align="center"><input type="checkbox" value="$value[groupid]" <!--{if in_array($value['groupid'], $viewarr)}--> checked="checked" <!--{/if}--> name="viewperm[]" /></td>
+			<td align="center"><input type="checkbox" value="$value[groupid]" <!--{if in_array($value['groupid'], $postarr)}--> checked="checked" <!--{/if}--> name="postperm[]" /></td>
+			<td align="center"><input type="checkbox" value="$value[groupid]" <!--{if in_array($value['groupid'], $replyarr)}--> checked="checked" <!--{/if}--> name="commentperm[]" /></td>
+			<td align="center"><input type="checkbox" value="$value[groupid]" <!--{if in_array($value['groupid'], $getattacharr)}--> checked="checked" <!--{/if}--> name="getattachperm[]" /></td>
+			<td align="center"><input type="checkbox" value="$value[groupid]" <!--{if in_array($value['groupid'], $postattacharr)}--> checked="checked" <!--{/if}--> name="postattachperm[]" /></td>
+			<td align="center"><input type="checkbox" value="$value[groupid]" <!--{if in_array($value['groupid'], $managearr)}--> checked="checked" <!--{/if}--> name="manageperm[]" /></td>
+		</tr>
+		<!--{/loop}-->
+	</table>
+	</div>
+	<div class="buttons">
+		<input type="submit" name="thevaluesubmit" value="提交保存" class="submit">
+		<input type="reset" name="thevaluereset" value="重置">
+		<input name="valuesubmit" type="hidden" value="yes" />
+		<input type="hidden" name="op" value="$_GET[op]">
+		<!--{if $_GET['op']=='edit'}-->
+		<input type="hidden" name="nameid" value="$thevalue[nameid]">
+		<input type="hidden" name="type" value="$thevalue[upnameid]">
+		<!--{/if}-->
+	</div>
+</form>
+<script language="javascript">
+<!--
+	function checktype(id) {
+		if(id == 'tr_usesample') {
+			$(id).style.display='';
+			$('tr_category').style.display='none';
+			$('tr_tpl').style.display='none';
+			$('tr_categorytpl').style.display='none';
+			$('tr_viewtpl').style.display='none';
+		} else if('tr_category') {
+			$(id).style.display='';
+			$('tr_tpl').style.display='';
+			$('tr_categorytpl').style.display='';
+			$('tr_viewtpl').style.display='';
+			$('tr_usesample').style.display='none';
+		}
+	}
+	
+	function readonlyall(form, type) {
+		for(var i = 0; i < form.elements.length; i++) {
+			var e = form.elements[i];
+				if(e.name.match('postperm') || e.name.match('commentperm') || e.name.match('getattachperm') || e.name.match('postattachperm') || e.name.match('manageperm') || e.name.match('chkallpost') || e.name.match('chkallcomment') || e.name.match('chkallgetattach') || e.name.match('chkallpostattach') || e.name.match('chkallmanage')) {
+					e.disabled = type;
+				}
+		}
+	}
+	
+	<!--{if !(in_array($channels[menus][$thevalue[nameid]][type], array('type', 'model')) || ($channels[menus][$thevalue[nameid]][type]=='user' && $channels[menus][$thevalue[nameid]][upnameid]=='news'))}-->
+		readonlyall($('theform'), true);
+	<!--{/if}-->
+
+//-->
+</script>
+<!--{elseif is_array($listarr) && $listarr}-->
+<form method="post" name="listform" id="theform" action="{CPURL}?action=channel" enctype="multipart/form-data">
+	<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+	<table cellspacing="2" cellpadding="2" class="helptable">
+		<tr><td>
+		<ul>
+			<li>系统内置了资讯频道。您可以为这些频道进行重新命名，并确定是否显示在站点菜单上面。</li>
+			<li>如果您在站点<u>系统设置</u>里面未开启某个频道功能，则该频道不会显示在站点菜单上面。</li>
+			<li>您也可以添加自己的频道，将某个频道设置为站点的首页，也可以指定频道访问地址为其他网站页面。</li>
+			<li>自己添加的频道程序文件存放在 <u><em>channel</em></u> 文件夹下面，模板文件存放在 <u><em>templates</em></u> 对应的风格目录下面。您需要根据需求进行自我修改。</li>
+		</ul>
+		</td></tr>
+	</table>
+	<table cellspacing="0" cellpadding="0" width="100%"  class="listtable">
+		<tr>
+			<th width="20">删?</th>
+			<th width="">英文ID</th>
+			<th width="150">状态</th>
+			<th width="30">设为首页</th>
+			<th width="60">频道名</th>
+			<th width="60">访问地址</th>
+			<!--{if $_SC['freshhtml']}-->
+			<th width="70">静态页目录</th>
+			<th width="30">频道域名</th>
+			<!--{/if}-->
+			<th width="50">顺序</th>
+			<th width="60">类型</th>
+			<th width="80">频道操作</th>
+		</tr>
+		<!--{eval empty($class) ? $class=' class="darkrow"': $class='';}-->
+		<tr$class align="center">
+			<td>-</td>
+			<td>-</td>
+			<td>-</td>
+			<td><input type="radio" name="default" onclick="defaultchennel(this.form, 'index');" value="index" checked /></td>
+			<td>综合首页</td>
+			<td title="{S_URL_ALL}">*</td>
+			<!--{if $_SC['freshhtml']}-->
+			<td>-</td>
+			<td>-</td>
+			<!--{/if}-->
+			<td>-</td>
+			<td>-</td>
+			<td><a href="{S_URL_ALL}" target="_blank">访问</a></td>
+		</tr>
+		<!--{loop $listarr $listvalue}-->
+		<!--{eval empty($class) ? $class=' class="darkrow"': $class='';}-->
+		<!--{eval $typearr = array('type'=>'内置','system'=>'聚合','model'=>'模型','user'=>'自定义');}-->
+		<tr$class align="center">
+			<td><input type="checkbox" name="delete[{$listvalue[nameid]}]" value="1"<!--{if $listvalue[type]!='user'}--> disabled<!--{/if}--> /></td>
+			<td><strong>$listvalue[nameid]</strong><input type="hidden" name="nameid[{$listvalue[nameid]}]" value="$listvalue[type]" /></td>
+			<td><input type="radio" name="show[{$listvalue[nameid]}]" value="1"<!--{if $listvalue[status]>0}--> checked<!--{/if}--><!--{if $listvalue[status]==2}--> disabled<!--{/if}--> />开放
+				<input type="radio" name="show[{$listvalue[nameid]}]" value="-1"<!--{if $listvalue[status]<0}--> checked<!--{/if}--><!--{if $listvalue[status]==2}--> disabled<!--{/if}--> />关闭
+				<input type="radio" name="show[{$listvalue[nameid]}]" value="0"<!--{if $listvalue[status]==0}--> checked<!--{/if}--><!--{if $listvalue[status]==2}--> disabled<!--{/if}--> />隐藏</td>
+			<td><input type="radio" name="default" onclick="defaultchennel(this.form, '$listvalue[nameid]');" value="$listvalue[nameid]"<!--{if $listvalue[status]==2}--> checked<!--{/if}--> /></td>
+			<td><input type="text" name="name[{$listvalue[nameid]}]" size="6" value="$listvalue[name]" /></td>
+			<td title="$listvalue[url]"><!--{if $listvalue[url]}-->*<!--{/if}--></td>
+			<!--{if $_SC['freshhtml']}-->
+			<td><input type="text" name="path[{$listvalue[path]}]" size="6" value="$listvalue[path]" /></td>
+			<td title="$listvalue[domain]"><!--{if $listvalue[domain]}-->*<!--{/if}--></td>
+			<!--{/if}-->
+			<td><input type="text" name="displayorder[{$listvalue[nameid]}]" size="2" value="$listvalue[displayorder]" /></td>
+			<td>$typearr[$listvalue[type]]<!--{if $listvalue[type]=='user'}--><br />
+				<!--{if $listvalue[upnameid]=='news'}-->文章频道<!--{else}-->单个页面<!--{/if}--><!--{/if}--></td>
+			<td><a href="$theurl&op=edit&nameid=$listvalue[nameid]">编辑</a> | 
+				<a href="$listvalue[visit]" target="_blank">访问</a><br>
+				<a href="$theurl&op=edittpl&nameid=$listvalue[nameid]" target="_blank">编辑模板</a></td>
+		</tr>
+		<!--{/loop}-->
+	</table>
+	<table cellspacing="0" cellpadding="0" width="100%"  class="btmtable">
+		<tr>
+			<th><input type="checkbox" name="chkall" onclick="checkall(this.form, 'delete')">全选 
+				<input name="importdelete" type="radio" value="1" checked /> 删除</th>
+		</tr>
+	</table>
+	<div class="buttons">
+		<input type="submit" name="listsubmit" value="提交保存" class="submit">
+		<input type="reset" name="listreset" value="重置">
+	</div>
+</form>
+<!--{/if}-->

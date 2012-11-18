@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE>Fore Color</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="">
+<META NAME="Keywords" CONTENT="">
+<META NAME="Description" CONTENT="">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<style type="text/css">
+body{
+	overflow:hidden;
+	margin:0px;
+	padding:0px;
+	padding-top:1px;
+	background:url("bgcolor.gif")
+}
+.C{
+	cursor:hand;
+	cursor:pointer;
+}
+button {
+	border:1px solid #999;
+	margin:0px;
+	padding:0px;
+	margin-top:2px;
+	margin-left:2px;
+	width:20px;
+	height:20px;
+	cursor:hand;
+	cursor:pointer;
+}
+.C1{
+	background:#FF9999;
+}
+.C2{
+	background:#FFFF80;
+}
+.C3{
+	background:#80FF80;
+}
+.C4{
+	background:#80FFFF;
+}
+.C5{
+	background:#0080FF;
+}
+.C6{
+	background:#FF80C0;
+}
+.C7{
+	background:#FF0000;
+}
+.C8{
+	background:#CCCC66;
+}
+.C9{
+	background:#00FF40;
+}
+.C10{
+	background:#0099CC;
+}
+.C11{
+	background:#9999CC;
+}
+.C12{
+	background:#FF00FF;
+}
+.C13{
+	background:#CC3333;
+}
+.C14{
+	background:#FF9933;
+}
+.C15{
+	background:#009999;
+}
+.C16{
+	background:#006699;
+}
+.C17{
+	background:#9999FF;
+}
+.C18{
+	background:#990033;
+}
+.C19{
+	background:#990000;
+}
+.C20{
+	background:#FF9900;
+}
+.C21{
+	background:#009900;
+}
+.C22{
+	background:#0000FF;
+}
+.C23{
+	background:#000066;
+}
+.C24{
+	background:#990099;
+}
+.C25{
+	background:#660000;
+}
+.C26{
+	background:#006666;
+}
+.C27{
+	background:#999900;
+}
+.C28{
+	background:#660099;
+}
+.C29{
+	background:#339999;
+}
+.C30{
+	background:#66CCCC;
+}
+.C31{
+	background:#000000;
+}
+.C32{
+	background:#494949;
+}
+.C33{
+	background:#767676;
+}
+.C34{
+	background:#A6A6A6;
+}
+.C35{
+	background:#C7C7C7;
+}
+.C36{
+	background:#FFFFFF;
+}
+</style>
+<script type="text/javascript">
+	function returnColor(_oObj){
+		return _oObj.currentStyle ? _oObj.currentStyle['backgroundColor'] : window.getComputedStyle(_oObj, "")['backgroundColor'];
+	}
+	function setColor(_sCss, _sSort, _sColor){
+	if(window.Event){
+		var oRTE = opener.getFrameNode(opener.sRTE);
+		}
+	else {
+		var oRTE = dialogArguments.getFrameNode(dialogArguments.sRTE);
+	}
+		oRTE.focus();
+		oRTE.document.execCommand(_sSort, false, _sColor);
+		oRTE.focus();
+		window.close();
+	}
+	function reg2color(_sColor){
+		if(_sColor.indexOf('rgb') > -1){
+			aColor = _sColor.replace("(","").replace(")","").replace("rgb","").split(", ");
+			aColor[0] = (Math.abs(aColor[0])).toString(16);
+			aColor[0] += aColor[0].length == 1 ? "0" : "";
+			aColor[1] = (Math.abs(aColor[1])).toString(16);
+			aColor[1] += aColor[1].length == 1 ? "1" : "";
+			aColor[2] = (Math.abs(aColor[2])).toString(16);
+			aColor[2] += aColor[2].length == 1 ? "2" : "";
+			return "#" + aColor.join('');
+		}else{
+			return _sColor;
+		}
+	}
+</script>
+</HEAD>
+<BODY>
+<script language="JavaScript">
+<!--
+var k = 1;
+for(var i = 0; i < 6; i ++) {
+	for(var j = 0; j < 6; j++) {
+		document.write('<button onclick="setColor(this.className, \'ForeColor\' ,reg2color(returnColor(this)))" class="C' + k + '"></button>');
+		k ++;
+	}
+	document.write('<br />');
+}
+//-->
+</script>
+</BODY>
+</HTML>

@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE>Format Block</TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="">
+<META NAME="Keywords" CONTENT="">
+<META NAME="Description" CONTENT="">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<style type="text/css">
+body{
+	overflow:hidden;
+	margin:0px;
+	padding:0px;
+	padding-top:1px;
+	background:url("bgcolor.gif")
+}
+.Aout{
+	color:#555;
+	width:98%;
+	font-size:14px;
+	border:1px solid #fff;
+	padding: 2px;
+}
+.Aover{
+	color:#000;
+	border:1px solid #999;
+	background:#eee;
+	font-size:14px;
+	width:98%;
+	padding: 2px;
+}
+</style>
+<script type="text/javascript">
+function setCmd(_sSort, _sFont){
+	if(window.Event){
+		var oRTE = opener.getFrameNode(opener.sRTE);
+	}else {
+		var oRTE = dialogArguments.getFrameNode(dialogArguments.sRTE);
+	}
+	oRTE.focus();
+	oRTE.document.execCommand(_sSort, false, _sFont);
+	oRTE.focus();
+}
+function _over(o) {
+	o.className="Aover";
+}
+function _out(o) {
+	o.className="Aout";
+}
+</script>
+</HEAD>
+<BODY>
+<center>
+  <div class="Aout" onmouseover="_over(this)" onmouseout="_out(this)" onclick="setCmd('FormatBlock', '<h1>')">H1 标题</div>
+  <div class="Aout" onmouseover="_over(this)" onmouseout="_out(this)" onclick="setCmd('FormatBlock', '<h2>')">H2 标题</div>
+  <div class="Aout" onmouseover="_over(this)" onmouseout="_out(this)" onclick="setCmd('FormatBlock', '<h3>')">H3 标题</div>
+  <div class="Aout" onmouseover="_over(this)" onmouseout="_out(this)" onclick="setCmd('FormatBlock', '<h4>')">H4 标题</div>
+  <div class="Aout" onmouseover="_over(this)" onmouseout="_out(this)" onclick="setCmd('FormatBlock', '<h5>')">H5 标题</div>
+  <div class="Aout" onmouseover="_over(this)" onmouseout="_out(this)" onclick="setCmd('FormatBlock', '<h6>')">H6 标题</div>
+  <div class="Aout" onmouseover="_over(this)" onmouseout="_out(this)" onclick="setCmd('FormatBlock', '<p>')">P 段落</div>
+  <div class="Aout" onmouseover="_over(this)" onmouseout="_out(this)" onclick="setCmd('FormatBlock', '<address>')">
+    <address>
+    address 地址
+    </address>
+  </div>
+  <div class="Aout" onmouseover="_over(this)" onmouseout="_out(this)" onclick="setCmd('FormatBlock', '<pre>')">pre 固定格式</div>
+</center>
+</BODY>
+</HTML>

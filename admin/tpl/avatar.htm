@@ -1,0 +1,45 @@
+<table summary="" id="pagehead" cellpadding="0" cellspacing="0" border="0" width="100%">
+	<tr>
+		<td><h1>头像管理</h1></td>
+		<td class="actions">&nbsp;
+		 
+		</td>
+	</tr>
+</table>
+
+<table cellspacing="2" cellpadding="2" class="helptable">
+	<tr>
+		<td>
+			<ul>
+				<li>操作说明：请记住最后要点击 <img src="admin/images/photo_edit.jpg" align="absmiddle"> 按钮后，头像才能被保存。</li>
+				<li>头像保存后，您可能需要刷新一下本页面(按F5键)，才能查看最新的头像效果。</li>
+			</ul>
+		</td>
+	</tr>
+</table>
+<div class="colorarea02">
+<h2>当前我的头像</h2>
+<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr>
+			<td>
+				如果您还没有设置自己的头像，系统会显示为默认头像，您需要自己上传一张新照片来作为自己的个人头像。
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<img src="{UC_API}/avatar.php?uid=$_SGLOBAL[supe_uid]&rand=$_SGLOBAL[timestamp]" id="avatar" />
+			</td>
+		</tr>
+</table>
+</div>
+
+<div class="colorarea02">
+<h2>设置我的新头像</h2>
+<table cellspacing="0" cellpadding="0" class="formtable">
+			
+		<tr><td>	<p>请选择一个新照片进行上传编辑。</p></td></tr>
+		<tr>
+			<td>$uc_avatarflash</td>
+		</tr>
+</table>
+</div>

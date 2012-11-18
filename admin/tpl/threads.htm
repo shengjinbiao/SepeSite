@@ -1,0 +1,105 @@
+<table summary="" id="pagehead" cellpadding="0" cellspacing="0" border="0" width="100%">
+	<tr>
+		<td><h1>$alang[bbs_threas_set]</h1></td>
+		<td class="actions">
+		<table cellspacing="0" cellpadding="0" border="0" align="right" summary="">
+			<tbody><tr>
+					<td><a href="$cpurl?action=bbs">$alang[admincp_header_type_bbsset]</a></td>
+					<td><a href="$cpurl?action=bbsforums">$alang['admincp_header_type_bbsforums']</a></td>
+					<td class="active"><a href="$cpurl?action=threads">$alang[admincp_header_type_bbsthreads]</a></td>
+				</tr>
+			</tbody></table>
+		</td>
+	</tr>
+</table>
+<form method="get" action="$formfind" >
+<input type="hidden" name="action" value="threads"  />
+<table cellspacing="0" cellpadding="0" width="100%" class="maintable">
+<tbody>
+<tr id="tr_">
+<th>作者UID</th>
+<td>
+<input type="text" value="$_GET[authorid]" name="authorid"/>
+</td>
+<th>作者名</th><td><input type="text" value="$_GET[author]" name="author"/></td>
+</tr>
+<tr>
+<th>标题*</th><td><input type="text" value="$_GET[subject]" name="subject"/></td>
+<th>内容*</th><td><input type="text" value="$_GET[message]" name="message"/>*表示支持模糊查询</td>
+</tr>
+<tr>
+<th>发布IP</th><td><input type="text" value="$_GET[useip]" name="useip"/></td>
+<th>帖子板块</th>
+	<td><select name="fid" ><option value="">请选择板块</option>$forumselect</select></td>
+</tr>
+
+<tr>
+<th>查看数</th><td colspan="3">
+<input type="text" size="10" name="views1" value="$_GET[views1]" /> ~
+<input type="text" size="10" name="views2"  value="$_GET[views2]"  />
+</td></tr>
+<tr><th>回复数</th><td colspan="3">
+<input type="text" size="10" name="replies1" value="$_GET[replies1]"  /> ~
+<input type="text" size="10" name="replies2" value="$_GET[replies2]" />
+</td></tr>
+<tr><th>发布时间</th><td colspan="3">
+<input type="text" size="10" name="dateline1" value="$_GET[dateline1]" /> ~
+<input type="text" size="10" name="dateline2" value="$_GET[dateline2]" /> (YYYY-MM-DD)
+</td></tr>
+<tr><th>结果排序</th>
+<td colspan="3">
+<select name="orderby">
+<option value="">默认排序</option>
+<option $orderby[dateline] value="dateline">发布时间</option>
+<option $orderby[views] value="views">查看数</option>
+<option $orderby[replies] value="replies">回复数</option>
+</select>
+<select name="ordersc">
+<option $ordersc[desc] value="desc">递减</option>
+<option $ordersc[asc] value="asc">递增</option>
+</select>
+<select name="perpage">
+<option $perpages[20] value="5">每页显示20个</option>
+<option $perpages[50] value="50">每页显示50个</option>
+<option $perpages[100] value="100">每页显示100个</option>
+</select>
+<input type="hidden" value="blog" name="ac"/>
+<input type="submit" class="submit" value="搜索" name="searchsubmit"/>
+</td>
+</tr>
+</tbody></table>
+</form>
+<form action="$formset" method="post">
+<input type="hidden" name="formhash" value="<!--{eval echo formhash();}-->" />
+<input type="hidden" name="url" value="$mpurl"  />
+<table cellspacing="0" cellpadding="0" width="100%" class="listtable">
+	<tr >
+	  <th width="11%" align="center">选择</th>
+		<th width="13%" align="center">发帖人</th>
+		<th width="53%" align="left">帖子标题</th>
+		<th width="23%" align="center">发帖时间</th>
+	</tr>
+	<!--{loop $list $value}-->
+	<tr $value[class]>
+		<td align="center"><input type="checkbox" name="tid[]" value="$value[tid]" $value[push] /></td>
+		<td align="center">$value[author]</td>
+		<td align="left"><a href="$_SC[bbsurl]/viewthread.php?tid=$value[tid]" target="_blank">$value[subject]</a></td>
+		<td align="center">$value[dateline]</td>
+	</tr>
+	<!--{/loop}-->
+
+	<tr>
+		<th width="11%">批量操作</th>
+		<th colspan="3" align="left"><input type="checkbox" onclick="checkall(this.form, 'tid')" name="chkall"/>全选<input type="radio" checked="" onclick="jsop(this.value)" value="push" name="operation"/>收录选中帖<input type="radio" onclick="jsop(this.value)" value="cannel" name="operation"/> 不收录选中帖</th>
+	</tr>
+	<!--{if $multi}-->
+	<tr>
+		<td colspan="4">$multi</td>
+	</tr>
+	<!--{/if}-->
+</table>
+<div class="buttons">
+<input type="submit" name="thevaluesubmit" value="提交保存" class="submit" >
+<input type="reset" name="thevaluereset" value="重置">
+</div>
+</form>
